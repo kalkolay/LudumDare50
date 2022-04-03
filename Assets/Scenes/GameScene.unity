@@ -2577,6 +2577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 1768232880}
+  deathRend: {fileID: 1323528347}
 --- !u!1 &620728377
 GameObject:
   m_ObjectHideFlags: 0
