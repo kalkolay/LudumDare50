@@ -121,6 +121,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!50 &179838216 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 4942754516886589020, guid: 6d4bebb1363a1e8489b285f25eb4b17d,
+    type: 3}
+  m_PrefabInstance: {fileID: 598866155}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &305694352 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4942754518146948993, guid: 6d4bebb1363a1e8489b285f25eb4b17d,
@@ -307,7 +313,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: BodyAndController
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4942754517713298305, guid: 6d4bebb1363a1e8489b285f25eb4b17d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6d4bebb1363a1e8489b285f25eb4b17d, type: 3}
 --- !u!114 &702231096 stripped
 MonoBehaviour:
@@ -333,9 +340,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f44d61da370354d4796e50077cfc1afc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!50 &829388750 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 4942754517276238608, guid: 6d4bebb1363a1e8489b285f25eb4b17d,
+    type: 3}
+  m_PrefabInstance: {fileID: 598866155}
+  m_PrefabAsset: {fileID: 0}
 --- !u!50 &935950884 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 4942754517064874574, guid: 6d4bebb1363a1e8489b285f25eb4b17d,
+    type: 3}
+  m_PrefabInstance: {fileID: 598866155}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1060577041 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 4942754518311131307, guid: 6d4bebb1363a1e8489b285f25eb4b17d,
+    type: 3}
+  m_PrefabInstance: {fileID: 598866155}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1081235397 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 4942754517917863057, guid: 6d4bebb1363a1e8489b285f25eb4b17d,
     type: 3}
   m_PrefabInstance: {fileID: 598866155}
   m_PrefabAsset: {fileID: 0}
@@ -431,6 +456,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &1205109677 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 4942754517611503036, guid: 6d4bebb1363a1e8489b285f25eb4b17d,
+    type: 3}
+  m_PrefabInstance: {fileID: 598866155}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1363763363 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 4942754517925979149, guid: 6d4bebb1363a1e8489b285f25eb4b17d,
+    type: 3}
+  m_PrefabInstance: {fileID: 598866155}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1399846549 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 4942754517305317574, guid: 6d4bebb1363a1e8489b285f25eb4b17d,
+    type: 3}
+  m_PrefabInstance: {fileID: 598866155}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1579657692 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 4942754517198331157, guid: 6d4bebb1363a1e8489b285f25eb4b17d,
+    type: 3}
+  m_PrefabInstance: {fileID: 598866155}
+  m_PrefabAsset: {fileID: 0}
 --- !u!50 &1582064167 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 4942754517829684241, guid: 6d4bebb1363a1e8489b285f25eb4b17d,
@@ -526,6 +575,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b46bf7e2c2f27f4fabd4b18f73ba24c, type: 3}
+--- !u!50 &1687656061 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 4942754516607958834, guid: 6d4bebb1363a1e8489b285f25eb4b17d,
+    type: 3}
+  m_PrefabInstance: {fileID: 598866155}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1700281849
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -744,6 +799,53 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b27f1a07e643d04f9d0ea63fd626a85, type: 3}
+--- !u!50 &1759420097 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 4942754516562192539, guid: 6d4bebb1363a1e8489b285f25eb4b17d,
+    type: 3}
+  m_PrefabInstance: {fileID: 598866155}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1845462318 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 4942754518173649177, guid: 6d4bebb1363a1e8489b285f25eb4b17d,
+    type: 3}
+  m_PrefabInstance: {fileID: 598866155}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1934241206 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4942754517713298306, guid: 6d4bebb1363a1e8489b285f25eb4b17d,
+    type: 3}
+  m_PrefabInstance: {fileID: 598866155}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1934241207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934241206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e8201798b6bbb24194b2bd5a1ce284d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodies:
+  - {fileID: 1081235397}
+  - {fileID: 1363763363}
+  - {fileID: 1579657692}
+  - {fileID: 1399846549}
+  - {fileID: 935950884}
+  - {fileID: 179838216}
+  - {fileID: 829388750}
+  - {fileID: 1582064167}
+  - {fileID: 1060577041}
+  - {fileID: 1687656061}
+  - {fileID: 1093317548}
+  - {fileID: 1845462318}
+  - {fileID: 1759420097}
+  - {fileID: 305694356}
+  - {fileID: 1205109677}
+  maxDistance: 17.2
 --- !u!1 &2110872722
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,7 +856,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2110872724}
   - component: {fileID: 2110872723}
-  - component: {fileID: 2110872725}
   m_Layer: 0
   m_Name: GameState
   m_TagString: Untagged
@@ -792,32 +893,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2110872725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2110872722}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e8201798b6bbb24194b2bd5a1ce284d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Spring: 50
-  Damper: 1
-  Drag: 100
-  AngularDrag: 5
-  Distance: 0.2
-  ScrollWheelSensitivity: 5
-  RotateSpringSpeed: 10
-  initRightHandGrabObject: {fileID: 1582064167}
-  initLeftHandGrabObject: {fileID: 935950884}
-  initRightLegGrabObject: {fileID: 305694356}
-  initLeftLegGrabObject: {fileID: 1093317548}
-  KeyToPinSpring: 32
-  KeyToClearPins: 127
-  KeyToRotateLeft: 122
-  KeyToRotateRight: 99
-  SpringRenderer: {fileID: 120016050281696658, guid: dd4178971d899014fa2943a9b5b0af01,
-    type: 3}
