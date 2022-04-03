@@ -5584,7 +5584,7 @@ PrefabInstance:
     - target: {fileID: 6033353715960941457, guid: f17cbbeb19cb1444585a66d554ff25b9,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6033353715960941459, guid: f17cbbeb19cb1444585a66d554ff25b9,
         type: 3}
@@ -5750,6 +5750,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: PlaySound
+      objectReference: {fileID: 0}
+    - target: {fileID: 6033353717594257528, guid: f17cbbeb19cb1444585a66d554ff25b9,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.5176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 6033353717594257528, guid: f17cbbeb19cb1444585a66d554ff25b9,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6033353717594257528, guid: f17cbbeb19cb1444585a66d554ff25b9,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6033353717594257528, guid: f17cbbeb19cb1444585a66d554ff25b9,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6033353717451374379, guid: f17cbbeb19cb1444585a66d554ff25b9, type: 3}
