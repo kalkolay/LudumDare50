@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public Transform BodyTransform;
-    public DragRigidbodyBetter rigidBody;
+    public Camera MainCmera;
 
     private float _prevBodyPosition;
     private float _amountToMove = 0;
@@ -18,7 +18,6 @@ public class PlayerScript : MonoBehaviour
     public void OnGrabTrigger()
     {
         var travelDistance = BodyTransform.position.y - _prevBodyPosition;
-        Debug.Log($"Travelled {travelDistance}");
         if (travelDistance > 0)
         {
             _prevBodyPosition = BodyTransform.position.y;
@@ -34,8 +33,8 @@ public class PlayerScript : MonoBehaviour
         {
             yield return new WaitForEndOfFrame();
             var travelDistance = Mathf.Min(GameState.instance.GetSettings().testScrollSpeed, _amountToMove);
-            GameState.instance.MoveWalls(travelDistance);
-            rigidBody.MoveAllSprings(-travelDistance);
+            GameState.instance.OnCameraMove(travelDistance);
+            MainCmera.transform.Translate(new Vector3(0, travelDistance, 0));
             _amountToMove -= travelDistance;
             if (_amountToMove < Mathf.Epsilon)
                 _amountToMove = 0;

@@ -175,7 +175,6 @@ public class DragRigidbodyBetter : MonoBehaviour
         {
             if (fExtensionCurrentSqr[iLimbIdx] > fLimbExtentionMax && cureentDragJoint != iLimbIdx && connectedJoints[iLimbIdx] != null)
             {
-                Debug.Log($"{iLimbIdx}: Std({fDistStd[iLimbIdx]}), Current({fDistCurrent[iLimbIdx]}), ExtensionSqr({fExtensionCurrentSqr[iLimbIdx]})\n");
                 ReleaseSpring(grLimbs[iLimbIdx], iLimbIdx);
             }
         }
@@ -191,6 +190,10 @@ public class DragRigidbodyBetter : MonoBehaviour
             TryGrab(initRightHandGrabObject.transform.position);
             TryRelease(true);
             TryGrab(initLeftHandGrabObject.transform.position);
+            TryRelease(true);
+            TryGrab(initLeftLegGrabObject.transform.position);
+            TryRelease(true);
+            TryGrab(initRightHandGrabObject.transform.position);
             TryRelease(true);
             _isInitialized = true;
         }
@@ -255,7 +258,9 @@ public class DragRigidbodyBetter : MonoBehaviour
             var springJoint = cureentDragJoint == -1 ? null : connectedJoints[cureentDragJoint];
             if ((currentGrabber.CanGrab || force) && !(springJoint is null))
             {
+                springJoint.transform.position = GameState.instance.GetConnectToWallPosition(springJoint.transform.position);
                 currentGrabber.Grab(springJoint);
+                playerScript.OnGrabTrigger();
             }
             else if (cureentDragJoint != -1)
             {
@@ -340,12 +345,5 @@ public class DragRigidbodyBetter : MonoBehaviour
                 renderer.SetPosition(1, connectedPosition);
             }
         }
-    }
-
-    public void MoveAllSprings(float distance)
-    {
-        foreach (var joint in connectedJoints)
-            if (joint != null)
-                joint.transform.Translate(0, distance, 0);
     }
 }
