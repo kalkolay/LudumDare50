@@ -60,9 +60,17 @@ public class GameState : MonoBehaviour
         _spawner.SpeedUp();
     }
 
-    public void MoveWalls(float distance)
+    public void OnCameraMove(float distance)
     {
         leftWall.MoveWall(distance);
         rightWall.MoveWall(distance);
+    }
+
+    public Vector3 GetConnectToWallPosition(Vector3 jointPosition)
+    {
+        var result = leftWall.GetConnectToWallPosition(jointPosition);
+        if (result is null)
+            result = rightWall.GetConnectToWallPosition(jointPosition);
+        return result.Value;
     }
 }

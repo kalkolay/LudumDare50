@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -50,11 +51,15 @@ public class DragRigidbodyBetter : MonoBehaviour
     private Rigidbody2D[] rbLimbs = new Rigidbody2D[4];
     private Grabber[] grLimbs = new Grabber[4];
 
-
     const int iCapsulePerLimb = 3;
     private CapsuleCollider2D[] ccCapsules = new CapsuleCollider2D[4 * iCapsulePerLimb];
 
     public float fLimbExtentionMax = 0.4f;
+    public float fSlipCoef = 0.1f;
+
+    public int[] aLimbConnected = new int[4];
+    public event Action onDedFall;
+    private bool bFalling = false;
 
     CapsuleCollider2D[] getAllLimbsCapsuleColliders()
     {
@@ -104,6 +109,8 @@ public class DragRigidbodyBetter : MonoBehaviour
         grLimbs[LeftLeg] = initLeftLegGrabObject.GetComponentInChildren<Grabber>();
 
         ccCapsules = getAllLimbsCapsuleColliders();
+        onDedFall += () => { Debug.Log("Ded is falling"); };
+        bFalling = false;
     }
 
     private void Awake()
@@ -120,35 +127,6 @@ public class DragRigidbodyBetter : MonoBehaviour
 
     private void UpdateDedExtension()
     {
-        /*
-        var rhDistVec = RightHandBoneJoint.anchor - RightHandRootBoneJoint.anchor;
-        fDistCurrent[RightHand] = Mathf.Sqrt(rhDistVec.x* rhDistVec.x + rhDistVec.y * rhDistVec.y);
-        fExtensionCurrentSqr[RightHand] = (fDistCurrent[RightHand] - fDistStd[RightHand]) * (fDistCurrent[RightHand] - fDistStd[RightHand]);
-
-        var lhDistVec = LeftHandBoneJoint.anchor - LeftHandRootBoneJoint.anchor;
-        fDistCurrent[LeftHand] = Mathf.Sqrt(lhDistVec.x * lhDistVec.x + lhDistVec.y * lhDistVec.y);
-        fExtensionCurrentSqr[LeftHand] = (fDistCurrent[LeftHand] - fDistStd[LeftHand]) * (fDistCurrent[LeftHand] - fDistStd[LeftHand]);
-
-        var rlDistVec = RightLegBoneJoint.anchor - RightLegRootBoneJoint.anchor;
-        fDistCurrent[RightLeg] = Mathf.Sqrt(rlDistVec.x * rlDistVec.x + rlDistVec.y * rlDistVec.y);
-        fExtensionCurrentSqr[RightLeg] = (fDistCurrent[RightLeg] - fDistStd[RightLeg]) * (fDistCurrent[RightLeg] - fDistStd[RightLeg]);
-
-        var llDistVec = LeftLegBoneJoint.anchor - LeftLegRootBoneJoint.anchor;
-        fDistCurrent[LeftLeg] = Mathf.Sqrt(llDistVec.x * llDistVec.x + llDistVec.y * llDistVec.y);
-        fExtensionCurrentSqr[LeftLeg] = (fDistCurrent[LeftLeg] - fDistStd[LeftLeg]) * (fDistCurrent[LeftLeg] - fDistStd[LeftLeg]);
-        */
-
-        /*for (int iLimbIdx = RightHand; iLimbIdx < LeftLeg; iLimbIdx++)
-        {
-            float fCurLimbExt = 0.0f;
-            for (int iCapsuleIdx = 0; iCapsuleIdx < iCapsulePerLimb; iCapsuleIdx++)
-            {
-                Vector2 vExt = ccCapsules[iLimbIdx * iCapsulePerLimb + iCapsuleIdx].bounds.extents;
-                fCurLimbExt += vExt.SqrMagnitude();
-            }
-            fExtensionCurrentSqr[iLimbIdx] = fCurLimbExt;
-        }*/
-
         for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
         {
             if (connectedJoints[iLimbIdx] != null)
@@ -175,8 +153,77 @@ public class DragRigidbodyBetter : MonoBehaviour
         {
             if (fExtensionCurrentSqr[iLimbIdx] > fLimbExtentionMax && cureentDragJoint != iLimbIdx && connectedJoints[iLimbIdx] != null)
             {
-                Debug.Log($"{iLimbIdx}: Std({fDistStd[iLimbIdx]}), Current({fDistCurrent[iLimbIdx]}), ExtensionSqr({fExtensionCurrentSqr[iLimbIdx]})\n");
                 ReleaseSpring(grLimbs[iLimbIdx], iLimbIdx);
+            }
+        }
+    }
+
+    private void SlipJoints()
+    {
+        for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
+        {
+            if (connectedJoints[iLimbIdx] != null)
+            {
+                var spring = connectedJoints[iLimbIdx].GetComponent<SpringJoint2D>();
+                spring.transform.Translate(new Vector3(0.0f, -fSlipCoef * Time.deltaTime, 0.0f));
+            }
+        }
+    }
+
+    private void DedFall()
+    {
+        if (!bFalling)
+        {
+            bFalling = true;
+            for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
+            {
+                ReleaseSpring(grLimbs[iLimbIdx], iLimbIdx);
+            }
+            onDedFall?.Invoke();
+        }
+    }
+
+    private void CheckFalling()
+    {
+        int iConnectionCount = 0;
+        for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
+        {
+            if (iLimbIdx == cureentDragJoint)
+            {
+                aLimbConnected[iLimbIdx] = 0;
+                continue;
+            }
+
+            aLimbConnected[iLimbIdx] = 0;
+            if (connectedJoints[iLimbIdx] != null)
+            {
+                var spring = connectedJoints[iLimbIdx].GetComponent<SpringJoint2D>();
+
+                bool bLimbConnected = (spring != null && spring.connectedBody != null);
+
+                if (bLimbConnected)
+                {
+                    aLimbConnected[iLimbIdx] = spring.transform.position.x < 0 ? -1 : 1;
+                    iConnectionCount++;
+                }
+            }
+        }
+
+        if (iConnectionCount < 2)
+        {
+            DedFall();
+        }
+
+        if (iConnectionCount == 2)
+        {
+            int iWallInfo = 0;
+            for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
+            {
+                iWallInfo += aLimbConnected[iLimbIdx];
+            }
+            if (iWallInfo == 2 || iWallInfo == -2)
+            {
+                DedFall();
             }
         }
     }
@@ -185,6 +232,7 @@ public class DragRigidbodyBetter : MonoBehaviour
     {
         UpdateDedExtension();
         UpdateDedSpringJoint();
+        SlipJoints();
 
         if (!_isInitialized)
         {
@@ -192,12 +240,17 @@ public class DragRigidbodyBetter : MonoBehaviour
             TryRelease(true);
             TryGrab(initLeftHandGrabObject.transform.position);
             TryRelease(true);
+            TryGrab(initLeftLegGrabObject.transform.position);
+            TryRelease(true);
+            TryGrab(initRightLegGrabObject.transform.position);
+            TryRelease(true);
             _isInitialized = true;
         }
 
         UpdatePinnedSprings();
+        CheckFalling();
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !bFalling)
         {
             TryGrab(mainCamera.ScreenToWorldPoint(Input.mousePosition));
         }
@@ -205,45 +258,62 @@ public class DragRigidbodyBetter : MonoBehaviour
         {
             TryRelease();
         }
-
-
         // We need to actually hit an object
-
-
     }
 
     private void TryGrab(Vector2 pos)
     {
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(pos.x, pos.y),
+        RaycastHit2D[] hits;
+        hits = Physics2D.RaycastAll(new Vector2(pos.x, pos.y),
             Vector2.zero, Mathf.Infinity);
-        if (!hit)
+
+        for (int i = 0; i < hits.Length; i++)
+        {
+            RaycastHit2D hit = hits[i];
+
+            if (!hit)
+                continue;
+            Rigidbody2D rb = hit.rigidbody;
+            // We need to hit a rigidbody that is not kinematic
+            if (!rb || rb.isKinematic)
+                continue;
+
+            int hitBodyIndex = -1;
+            if (rb == initRightHandGrabObject)
+                hitBodyIndex = 0;
+            if (rb == initLeftHandGrabObject)
+                hitBodyIndex = 1;
+            if (rb == initRightLegGrabObject)
+                hitBodyIndex = 2;
+            if (rb == initLeftLegGrabObject)
+                hitBodyIndex = 3;
+            if (hitBodyIndex == -1)
+                continue;
+
+            currentGrabber = rb.gameObject.GetComponentInChildren<Grabber>();
+
+            if (currentGrabber == null) continue;
+            currentGrabber.OnTriggerEnter2DCallback = OnTriggerEnter2DCallback;
+            currentGrabber.OnTriggerExit2DCallback = OnTriggerExit2DCallback;
+            ReleaseSpring(currentGrabber, hitBodyIndex);
+            CreateSpring(hit, currentGrabber, hitBodyIndex);
+            UpdatePinnedSprings();
+            cureentDragJoint = hitBodyIndex;
+            _dragCoroutine = StartCoroutine(DragObject(hit.distance));
             return;
-        Rigidbody2D rb = hit.rigidbody;
-        // We need to hit a rigidbody that is not kinematic
-        if (!rb || rb.isKinematic)
-            return;
+        }
+    }
 
+    private void OnTriggerEnter2DCallback()
+    {
+        if (cureentDragJoint != -1)
+            Debug.Log("Entered");
+    }
 
-        int hitBodyIndex = -1;
-        if (rb == initRightHandGrabObject)
-            hitBodyIndex = 0;
-        if (rb == initLeftHandGrabObject)
-            hitBodyIndex = 1;
-        if (rb == initRightLegGrabObject)
-            hitBodyIndex = 2;
-        if (rb == initLeftLegGrabObject)
-            hitBodyIndex = 3;
-        if (hitBodyIndex == -1)
-            return;
-
-        currentGrabber = rb.gameObject.GetComponentInChildren<Grabber>();
-
-        if (currentGrabber == null) return;
-        ReleaseSpring(currentGrabber, hitBodyIndex);
-        CreateSpring(hit, currentGrabber, hitBodyIndex);
-        UpdatePinnedSprings();
-        cureentDragJoint = hitBodyIndex;
-        _dragCoroutine = StartCoroutine(DragObject(hit.distance));
+    private void OnTriggerExit2DCallback()
+    {
+        if (cureentDragJoint != -1)
+            Debug.Log("Exited");
     }
 
     private void TryRelease(bool force = false)
@@ -253,9 +323,11 @@ public class DragRigidbodyBetter : MonoBehaviour
             if (!(_dragCoroutine is null))
                 StopCoroutine(_dragCoroutine);
             var springJoint = cureentDragJoint == -1 ? null : connectedJoints[cureentDragJoint];
-            if ((currentGrabber.CanGrab || force) && !(springJoint is null))
+            if ((IsCloseToWall() || force) && !(springJoint is null))
             {
+                springJoint.transform.position = GameState.instance.GetConnectToWallPosition(springJoint.transform.position);
                 currentGrabber.Grab(springJoint);
+                playerScript.OnGrabTrigger();
             }
             else if (cureentDragJoint != -1)
             {
@@ -282,7 +354,6 @@ public class DragRigidbodyBetter : MonoBehaviour
 
         springJoint.transform.position = hit.point;
         springJoint.anchor = Vector3.zero;
-
 
         springJoint.dampingRatio = Damper;
         springJoint.autoConfigureDistance = false;
@@ -316,10 +387,24 @@ public class DragRigidbodyBetter : MonoBehaviour
         {
             var draggedJoint = cureentDragJoint == -1 ? null : connectedJoints[cureentDragJoint];
             if (draggedJoint is null) yield break;
-            draggedJoint.transform.position = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            var mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            var closestPosition = GameState.instance.GetConnectToWallPosition(mousePosition);
+            if (IsCloseToWall())
+                draggedJoint.transform.position = closestPosition;
+            else
+                draggedJoint.transform.position = mousePosition;
+
             yield return null;
         }
     }
+
+    private bool IsCloseToWall()
+    {
+        var mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        var closestPosition = GameState.instance.GetConnectToWallPosition(mousePosition);
+        return Mathf.Abs(mousePosition.x - closestPosition.x) < 0.8;
+    }
+
 
 
     private void UpdatePinnedSprings()
@@ -340,12 +425,5 @@ public class DragRigidbodyBetter : MonoBehaviour
                 renderer.SetPosition(1, connectedPosition);
             }
         }
-    }
-
-    public void MoveAllSprings(float distance)
-    {
-        foreach (var joint in connectedJoints)
-            if (joint != null)
-                joint.transform.Translate(0, distance, 0);
     }
 }

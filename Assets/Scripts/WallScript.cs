@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.U2D;
 
 public class WallScript : MonoBehaviour
@@ -9,6 +10,10 @@ public class WallScript : MonoBehaviour
     private SpriteShapeController[] Walls;
     [SerializeField]
     private SpriteShapeController[] Triggers;
+    [SerializeField]
+    private SpriteShapeController[] Colliders;
+    [SerializeField]
+    private Camera MainCamera;
 
     [System.NonSerialized]
     public float HighestCorner;
@@ -21,6 +26,9 @@ public class WallScript : MonoBehaviour
     private float _segmentHeight;
     private int _nextUpdatedWallIndex;
 
+    // TODO: NO HARDCODE
+    private const float center = 2.38f;
+
     void Start()
     {
         _positionsToUpdate = IsLeft ? new int[] { 2, 3 } : new int[] { 1, 0 };
@@ -29,27 +37,23 @@ public class WallScript : MonoBehaviour
         _deltaModifier = IsLeft ? 1 : -1;
         _delta = _deltaModifier * GameState.instance.GetSettings().wallsCloseDownAmount;
         UpdatePositions(Walls[0].spline, new int[] { _positionsToUpdate[0] });
+        UpdatePositions(Colliders[0].spline, new int[] { _positionsToUpdate[0] });
         _nextUpdatedWallIndex = -1;
         UpdateCorner(Walls[0]);
         for (int i = 0; i < Walls.Length; i++)
             UpdateTrigger(i);
     }
 
-    void Update()
-    {
-        //MoveWall(GameState.instance.GetSettings().testScrollSpeed);
-    }
-
     public void MoveWall(float distance)
     {
-        transform.Translate(new Vector3(0, -distance, 0));
-        if (_lastUpdateY - _segmentHeight - 0.1f * _segmentHeight > transform.position.y)
+        //transform.Translate(new Vector3(0, -distance, 0));
+        if (_lastUpdateY + _segmentHeight + 0.1f * _segmentHeight < MainCamera.transform.position.y)
             MoveWall();
     }
 
     private void UpdatePositions(Spline spline, int[] positionsToUpdate)
     {
-        _lastUpdateY = transform.position.y + 0.1f * _segmentHeight;
+        _lastUpdateY = MainCamera.transform.position.y + 0.1f * _segmentHeight;
         foreach (var position in positionsToUpdate)
         {
             var pointAtPosition = spline.GetPosition(position);
@@ -65,9 +69,12 @@ public class WallScript : MonoBehaviour
             GameState.instance.SpeedUp();
         }
         var wallToUpdate = Walls[_nextUpdatedWallIndex];
+        var colliderToUpdate = Colliders[_nextUpdatedWallIndex];
         wallToUpdate.transform.Translate(0, Walls.Length * _segmentHeight, 0);
+        colliderToUpdate.transform.Translate(0, Walls.Length * _segmentHeight, 0);
         Triggers[_nextUpdatedWallIndex].transform.Translate(0, Walls.Length * _segmentHeight, 0);
         UpdatePositions(wallToUpdate.spline, _positionsToUpdate);
+        UpdatePositions(colliderToUpdate.spline, _positionsToUpdate);
         UpdateCorner(wallToUpdate);
         UpdateTrigger(_nextUpdatedWallIndex);
         _nextUpdatedWallIndex--;
@@ -77,7 +84,12 @@ public class WallScript : MonoBehaviour
 
     private void UpdateCorner(SpriteShapeController wall)
     {
-        HighestCorner = wall.spline.GetPosition(_positionsToUpdate[0]).x + wall.transform.localPosition.x + transform.position.x;
+        HighestCorner = PointXTOGlobalX(wall.spline.GetPosition(_positionsToUpdate[0]).x, wall);
+    }
+
+    private float PointXTOGlobalX(float x, SpriteShapeController wall)
+    {
+        return x + wall.transform.localPosition.x + transform.position.x;
     }
 
     private void UpdateTrigger(int index)
@@ -90,5 +102,16 @@ public class WallScript : MonoBehaviour
             trigger.spline.SetPosition(_positionsToUpdate[positionIndex], new Vector3(positionToClayTo.x + _deltaModifier * GameState.instance.GetSettings().triggerWidth, positionToClayTo.y, positionToClayTo.z));
             trigger.spline.SetPosition(_opposePositionsToUpdate[positionIndex], positionToClayTo);
         }
+    }
+
+    public Vector3? GetConnectToWallPosition(Vector3 jointPosition)
+    {
+        if (IsLeft && jointPosition.x > 0)
+            return null;
+        var wall = Colliders.FirstOrDefault(x => x.spline.GetPosition(_positionsToUpdate[0]).y >= jointPosition.y && x.spline.GetPosition(_positionsToUpdate[1]).y <= jointPosition.y);
+        var position1 = wall.spline.GetPosition(_positionsToUpdate[0]);
+        var position2 = wall.spline.GetPosition(_positionsToUpdate[1]);
+        
+        return new Vector3(PointXTOGlobalX(wall.spline.GetPosition(_positionsToUpdate[1]).x, wall), jointPosition.y, jointPosition.z);
     }
 }

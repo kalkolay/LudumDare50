@@ -13,6 +13,7 @@ public class Menu : MonoBehaviour
     public GameObject pause;
     public GameObject death;
     public GameObject filler;           // background filler related with fixed sized sprite of main menu
+
     Animator _anim;
     enum GameState {splash, main_menu, credits, game, pause, death};
     GameState game_state;
