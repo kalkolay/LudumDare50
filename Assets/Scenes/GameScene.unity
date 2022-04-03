@@ -5118,6 +5118,11 @@ PrefabInstance:
       propertyPath: IsLeft
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6547776049859615792, guid: 8b46bf7e2c2f27f4fabd4b18f73ba24c,
+        type: 3}
+      propertyPath: MainCamera
+      value: 
+      objectReference: {fileID: 519420031}
     - target: {fileID: 7578740005312328596, guid: 8b46bf7e2c2f27f4fabd4b18f73ba24c,
         type: 3}
       propertyPath: m_ShapeTexture
@@ -5642,6 +5647,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6547776049859615792, guid: 8b46bf7e2c2f27f4fabd4b18f73ba24c,
+        type: 3}
+      propertyPath: MainCamera
+      value: 
+      objectReference: {fileID: 519420031}
     - target: {fileID: 7578740005312328596, guid: 8b46bf7e2c2f27f4fabd4b18f73ba24c,
         type: 3}
       propertyPath: m_ShapeTexture
