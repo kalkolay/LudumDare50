@@ -13,6 +13,8 @@ public class GameState : MonoBehaviour
     [SerializeField]
     private GameObject DevMenu;
     [SerializeField]
+    private GameObject Background;
+    [SerializeField]
     private UnityEngine.UI.Text CurrentHeightLabel;
 
     [System.NonSerialized]
@@ -64,6 +66,7 @@ public class GameState : MonoBehaviour
     {
         leftWall.MoveWall(distance);
         rightWall.MoveWall(distance);
+        Background.transform.Translate(new Vector3(0, distance, 0));
     }
 
     public Vector3 GetConnectToWallPosition(Vector3 jointPosition)

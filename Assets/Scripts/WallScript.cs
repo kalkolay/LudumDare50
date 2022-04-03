@@ -108,10 +108,10 @@ public class WallScript : MonoBehaviour
     {
         if (IsLeft && jointPosition.x > 0)
             return null;
-        var wall = Colliders.FirstOrDefault(x => x.spline.GetPosition(_positionsToUpdate[0]).y >= jointPosition.y && x.spline.GetPosition(_positionsToUpdate[1]).y <= jointPosition.y);
+        var wall = Walls.FirstOrDefault(x => x.spline.GetPosition(_positionsToUpdate[0]).y >= jointPosition.y && x.spline.GetPosition(_positionsToUpdate[1]).y <= jointPosition.y);
         var position1 = wall.spline.GetPosition(_positionsToUpdate[0]);
         var position2 = wall.spline.GetPosition(_positionsToUpdate[1]);
         
-        return new Vector3(PointXTOGlobalX(wall.spline.GetPosition(_positionsToUpdate[1]).x, wall), jointPosition.y, jointPosition.z);
+        return new Vector3(PointXTOGlobalX(wall.spline.GetPosition(_positionsToUpdate[1]).x + -0.1f * _delta, wall), jointPosition.y, jointPosition.z);
     }
 }
