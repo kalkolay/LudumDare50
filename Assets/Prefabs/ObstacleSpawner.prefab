@@ -45,3 +45,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacle: {fileID: 7854342066409927050, guid: e5dddd622f3d73649b12531d8ad2746c,
     type: 3}
+  smallObstacleSprites:
+  - {fileID: 21300000, guid: d8591aca7ad505f4ab6ffae1465917d8, type: 3}
+  - {fileID: 21300000, guid: c1b5aca5f3d28e34fbe849899834984c, type: 3}
+  - {fileID: 21300000, guid: f4cca838e18f8114cbb13a58d61b5a06, type: 3}
+  mediumObstacleSprites:
+  - {fileID: 21300000, guid: 888281e439536494a8f0d60336561e2a, type: 3}
+  - {fileID: 21300000, guid: 67bb47c48d15b9b478169ea149c7a4c8, type: 3}
+  bigObstacleSprites:
+  - {fileID: 21300000, guid: 9bbf097b0094b51449682fccfd5c7290, type: 3}
