@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -50,11 +51,15 @@ public class DragRigidbodyBetter : MonoBehaviour
     private Rigidbody2D[] rbLimbs = new Rigidbody2D[4];
     private Grabber[] grLimbs = new Grabber[4];
 
-
     const int iCapsulePerLimb = 3;
     private CapsuleCollider2D[] ccCapsules = new CapsuleCollider2D[4 * iCapsulePerLimb];
 
     public float fLimbExtentionMax = 0.4f;
+    public float fSlipCoef = 0.1f;
+
+    public int[] aLimbConnected = new int[4];
+    public event Action onDedFall;
+    private bool bFalling = false;
 
     CapsuleCollider2D[] getAllLimbsCapsuleColliders()
     {
@@ -104,6 +109,8 @@ public class DragRigidbodyBetter : MonoBehaviour
         grLimbs[LeftLeg] = initLeftLegGrabObject.GetComponentInChildren<Grabber>();
 
         ccCapsules = getAllLimbsCapsuleColliders();
+        onDedFall += () => { Debug.Log("Ded is falling"); };
+        bFalling = false;
     }
 
     private void Awake()
@@ -120,35 +127,6 @@ public class DragRigidbodyBetter : MonoBehaviour
 
     private void UpdateDedExtension()
     {
-        /*
-        var rhDistVec = RightHandBoneJoint.anchor - RightHandRootBoneJoint.anchor;
-        fDistCurrent[RightHand] = Mathf.Sqrt(rhDistVec.x* rhDistVec.x + rhDistVec.y * rhDistVec.y);
-        fExtensionCurrentSqr[RightHand] = (fDistCurrent[RightHand] - fDistStd[RightHand]) * (fDistCurrent[RightHand] - fDistStd[RightHand]);
-
-        var lhDistVec = LeftHandBoneJoint.anchor - LeftHandRootBoneJoint.anchor;
-        fDistCurrent[LeftHand] = Mathf.Sqrt(lhDistVec.x * lhDistVec.x + lhDistVec.y * lhDistVec.y);
-        fExtensionCurrentSqr[LeftHand] = (fDistCurrent[LeftHand] - fDistStd[LeftHand]) * (fDistCurrent[LeftHand] - fDistStd[LeftHand]);
-
-        var rlDistVec = RightLegBoneJoint.anchor - RightLegRootBoneJoint.anchor;
-        fDistCurrent[RightLeg] = Mathf.Sqrt(rlDistVec.x * rlDistVec.x + rlDistVec.y * rlDistVec.y);
-        fExtensionCurrentSqr[RightLeg] = (fDistCurrent[RightLeg] - fDistStd[RightLeg]) * (fDistCurrent[RightLeg] - fDistStd[RightLeg]);
-
-        var llDistVec = LeftLegBoneJoint.anchor - LeftLegRootBoneJoint.anchor;
-        fDistCurrent[LeftLeg] = Mathf.Sqrt(llDistVec.x * llDistVec.x + llDistVec.y * llDistVec.y);
-        fExtensionCurrentSqr[LeftLeg] = (fDistCurrent[LeftLeg] - fDistStd[LeftLeg]) * (fDistCurrent[LeftLeg] - fDistStd[LeftLeg]);
-        */
-
-        /*for (int iLimbIdx = RightHand; iLimbIdx < LeftLeg; iLimbIdx++)
-        {
-            float fCurLimbExt = 0.0f;
-            for (int iCapsuleIdx = 0; iCapsuleIdx < iCapsulePerLimb; iCapsuleIdx++)
-            {
-                Vector2 vExt = ccCapsules[iLimbIdx * iCapsulePerLimb + iCapsuleIdx].bounds.extents;
-                fCurLimbExt += vExt.SqrMagnitude();
-            }
-            fExtensionCurrentSqr[iLimbIdx] = fCurLimbExt;
-        }*/
-
         for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
         {
             if (connectedJoints[iLimbIdx] != null)
@@ -181,10 +159,75 @@ public class DragRigidbodyBetter : MonoBehaviour
         }
     }
 
+    private void SlipJoints()
+    {
+        for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
+        {
+            if (connectedJoints[iLimbIdx] != null)
+            {
+                var spring = connectedJoints[iLimbIdx].GetComponent<SpringJoint2D>();
+                spring.transform.Translate(new Vector3(0.0f, -fSlipCoef * Time.deltaTime, 0.0f));
+            }
+        }
+    }
+
+    private void DedFall()
+    {
+        if (!bFalling)
+        {
+            bFalling = true;
+            for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
+            {
+                ReleaseSpring(grLimbs[iLimbIdx], iLimbIdx);
+            }
+            onDedFall?.Invoke();
+        }
+    }
+
+    private void CheckFalling()
+    {
+        int iConnectionCount = 0;
+        for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
+        {
+            aLimbConnected[iLimbIdx] = 0;
+            if (connectedJoints[iLimbIdx] != null)
+            {
+                var spring = connectedJoints[iLimbIdx].GetComponent<SpringJoint2D>();
+
+                bool bLimbConnected = (spring != null && spring.connectedBody != null);
+
+                if (bLimbConnected)
+                {
+                    aLimbConnected[iLimbIdx] = spring.transform.position.x < 0 ? -1 : 1;
+                    iConnectionCount++;
+                }
+            }
+        }
+
+        if (iConnectionCount < 2)
+        {
+            DedFall();
+        }
+
+        if (iConnectionCount == 2)
+        {
+            int iWallInfo = 0;
+            for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
+            {
+                iWallInfo += aLimbConnected[iLimbIdx];
+            }
+            if (iWallInfo == 2 || iWallInfo == -2)
+            {
+                DedFall();
+            }
+        }
+    }
+
     private void Update()
     {
         UpdateDedExtension();
         UpdateDedSpringJoint();
+        SlipJoints();
 
         if (!_isInitialized)
         {
@@ -196,6 +239,7 @@ public class DragRigidbodyBetter : MonoBehaviour
         }
 
         UpdatePinnedSprings();
+        CheckFalling();
 
         if (Input.GetMouseButtonDown(0))
         {
