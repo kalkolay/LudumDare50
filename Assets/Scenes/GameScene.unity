@@ -2558,6 +2558,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 564452289}
   m_CullTransparentMesh: 0
+--- !u!1 &594049059 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5774220977517087120, guid: 3b27f1a07e643d04f9d0ea63fd626a85,
+    type: 3}
+  m_PrefabInstance: {fileID: 1756477882}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &594049062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 594049059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0489aefccf147ff41a3572d8f7d50dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menu: {fileID: 1768232880}
 --- !u!1 &620728377
 GameObject:
   m_ObjectHideFlags: 0
@@ -5451,6 +5470,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3468656184356002851, guid: a2b2f5d4ce08d2c4fa275caa84fa182d,
         type: 3}
+      propertyPath: MainCmera
+      value: 
+      objectReference: {fileID: 519420031}
+    - target: {fileID: 3468656184356002851, guid: a2b2f5d4ce08d2c4fa275caa84fa182d,
+        type: 3}
       propertyPath: rigidBody
       value: 
       objectReference: {fileID: 2110872725}
@@ -5922,6 +5946,11 @@ PrefabInstance:
       propertyPath: IsLeft
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6547776049859615792, guid: 8b46bf7e2c2f27f4fabd4b18f73ba24c,
+        type: 3}
+      propertyPath: MainCamera
+      value: 
+      objectReference: {fileID: 519420031}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b46bf7e2c2f27f4fabd4b18f73ba24c, type: 3}
 --- !u!1 &1592423539
@@ -6431,6 +6460,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6547776049859615792, guid: 8b46bf7e2c2f27f4fabd4b18f73ba24c,
+        type: 3}
+      propertyPath: MainCamera
+      value: 
+      objectReference: {fileID: 519420031}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b46bf7e2c2f27f4fabd4b18f73ba24c, type: 3}
 --- !u!1 &1714980422
@@ -6597,6 +6631,8 @@ MonoBehaviour:
   logo: {fileID: 6033353715717351558}
   pause: {fileID: 6033353716094595031}
   death: {fileID: 1323528343}
+  filler: {fileID: 440790705}
+  deathPlate: {fileID: 594049062}
 --- !u!114 &1768232881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8833,6 +8869,8 @@ MonoBehaviour:
   RightLegBoneJoint: {fileID: 1491205030}
   LeftLegBoneJoint: {fileID: 1491205034}
   fLimbExtentionMax: 0.4
+  fSlipCoef: 0.1
+  aLimbConnected: 00000000000000000000000000000000
 --- !u!1 &2112374997
 GameObject:
   m_ObjectHideFlags: 0

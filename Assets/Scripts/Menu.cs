@@ -13,6 +13,7 @@ public class Menu : MonoBehaviour
     public GameObject pause;
     public GameObject death;
     public GameObject filler;           // background filler related with fixed sized sprite of main menu
+    public DeathPlate deathPlate;
 
     Animator _anim;
     enum GameState {splash, main_menu, credits, game, pause, death};
@@ -131,6 +132,7 @@ public class Menu : MonoBehaviour
         logo.SetActive(false);
         credits.SetActive(false);
         filler.SetActive(false);
+        deathPlate.onNewGame();
     }
 
     public void CreditsPressed()
