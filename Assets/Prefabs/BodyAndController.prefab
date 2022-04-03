@@ -1263,6 +1263,7 @@ GameObject:
   - component: {fileID: 4023267247532611401}
   - component: {fileID: 4023267247532611400}
   - component: {fileID: 8308496128322490367}
+  - component: {fileID: 2898889191258378383}
   m_Layer: 0
   m_Name: char-leg-003-left
   m_TagString: Untagged
@@ -1409,6 +1410,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedSpring: {fileID: 0}
   isGrabbing: 0
+--- !u!58 &2898889191258378383
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4023267247532611402}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.00000011920929, y: 0.00000047683716}
+  serializedVersion: 2
+  m_Radius: 1.97
 --- !u!1 &4023267247620266812
 GameObject:
   m_ObjectHideFlags: 0
@@ -1423,6 +1440,7 @@ GameObject:
   - component: {fileID: 4023267247620266803}
   - component: {fileID: 4023267247620266802}
   - component: {fileID: 8308496126962367175}
+  - component: {fileID: 7200391102949765057}
   m_Layer: 0
   m_Name: char-leg-003-right
   m_TagString: Untagged
@@ -1569,6 +1587,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedSpring: {fileID: 0}
   isGrabbing: 0
+--- !u!58 &7200391102949765057
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4023267247620266812}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.00000059604645, y: 0.00000047683716}
+  serializedVersion: 2
+  m_Radius: 1.97
 --- !u!1 &4023267247630257574
 GameObject:
   m_ObjectHideFlags: 0

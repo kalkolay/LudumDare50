@@ -11,6 +11,7 @@ public class Menu : MonoBehaviour
     public GameObject credits;
     public GameObject logo;
     public GameObject pause;
+    public DeathPlate deathPlate;
     Animator _anim;
     enum GameState {splash, main_menu, credits, game, pause};
     GameState game_state;
@@ -33,6 +34,7 @@ public class Menu : MonoBehaviour
         Physics.autoSimulation = false;
         Time.timeScale = 0;
         dt = 0;
+        deathPlate.onNewGame();
     }
 
     // Update is called once per frame
