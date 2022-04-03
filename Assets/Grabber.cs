@@ -23,6 +23,8 @@ public class Grabber : MonoBehaviour
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        if (rigidbody is null)
+            Debug.Log(name);
     }
     //public bool CanGrab()
     //{

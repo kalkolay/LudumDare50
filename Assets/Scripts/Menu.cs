@@ -11,6 +11,7 @@ public class Menu : MonoBehaviour
     public GameObject credits;
     public GameObject logo;
     public GameObject pause;
+    public DeathPlate deathPlate;
     Animator _anim;
     enum GameState {splash, main_menu, credits, game, pause};
     GameState game_state;
@@ -26,13 +27,14 @@ public class Menu : MonoBehaviour
         main_menu.SetActive(false);
         credits.SetActive(false);
         pause.SetActive(false);
-        //logo.SetActive(true);
+        logo.SetActive(true);
         _anim = GetComponentInChildren<Animator>();
         fade_out = true;
         fade_in = false;
-        prev_time = Time.time;
         Physics.autoSimulation = false;
-        
+        Time.timeScale = 0;
+        dt = 0;
+        deathPlate.onNewGame();
     }
 
     // Update is called once per frame
@@ -43,25 +45,24 @@ public class Menu : MonoBehaviour
             case GameState.splash:
                 if (fade_out)
                 {
-                    float dt = Time.time - prev_time;
+                    dt += 0.0025f;
                     logo.GetComponent<LogoLoad>().SetAlpha(dt);
                     if (dt > 1)
                     {
                         fade_out = false;
                         fade_in = true;
-                        prev_time = Time.time;
                     }
                 }
                 if (fade_in)
                 {
-                    float dt = Time.time - prev_time;
-                    if (dt > 1)
+                    dt -= 0.0025f;
+                    if (dt < 0)
                     {
                         game_state = GameState.main_menu;
                         logo.SetActive(false);
                         main_menu.SetActive(true);
                     }
-                    logo.GetComponent<LogoLoad>().SetAlpha(1 - dt);
+                    logo.GetComponent<LogoLoad>().SetAlpha(dt);
                     
                 }
                 break;
@@ -79,6 +80,7 @@ public class Menu : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     Physics.autoSimulation = false;
+                    Time.timeScale = 0;
                     pause.SetActive(true);
                     game_state = GameState.pause;
                 }
@@ -87,6 +89,7 @@ public class Menu : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     Physics.autoSimulation = true;
+                    Time.timeScale = 1;
                     pause.SetActive(false);
                     game_state = GameState.game;
                 }
@@ -106,6 +109,7 @@ public class Menu : MonoBehaviour
         _anim.SetTrigger("Menu");
         game_state = GameState.game;
         Physics.autoSimulation = true;
+        Time.timeScale = 1;
         main_menu.SetActive(false);
         logo.SetActive(false);
         credits.SetActive(false);
@@ -129,6 +133,7 @@ public class Menu : MonoBehaviour
     public void ResumePressed()
     {
         Physics.autoSimulation = true;
+        Time.timeScale = 1;
         pause.SetActive(false);
         game_state = GameState.game;
     }
