@@ -108,7 +108,13 @@ public class WallScript : MonoBehaviour
     {
         if (IsLeft && jointPosition.x > 0)
             return null;
-        var wall = Walls.FirstOrDefault(x => x.spline.GetPosition(_positionsToUpdate[0]).y >= jointPosition.y && x.spline.GetPosition(_positionsToUpdate[1]).y <= jointPosition.y);
+        var wall = Walls.FirstOrDefault(x =>
+        {
+            var firstPosition = x.spline.GetPosition(_positionsToUpdate[0]).y + x.transform.position.y;
+            var secondPosition = x.spline.GetPosition(_positionsToUpdate[1]).y + x.transform.position.y;
+            var checkPosition = jointPosition.y;
+            return firstPosition - checkPosition > Mathf.Epsilon && secondPosition - checkPosition < - Mathf.Epsilon;
+        });
         var position1 = wall.spline.GetPosition(_positionsToUpdate[0]);
         var position2 = wall.spline.GetPosition(_positionsToUpdate[1]);
         

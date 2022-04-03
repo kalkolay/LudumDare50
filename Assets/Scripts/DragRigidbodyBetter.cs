@@ -293,8 +293,6 @@ public class DragRigidbodyBetter : MonoBehaviour
             currentGrabber = rb.gameObject.GetComponentInChildren<Grabber>();
 
             if (currentGrabber == null) continue;
-            currentGrabber.OnTriggerEnter2DCallback = OnTriggerEnter2DCallback;
-            currentGrabber.OnTriggerExit2DCallback = OnTriggerExit2DCallback;
             ReleaseSpring(currentGrabber, hitBodyIndex);
             CreateSpring(hit, currentGrabber, hitBodyIndex);
             UpdatePinnedSprings();
@@ -302,18 +300,6 @@ public class DragRigidbodyBetter : MonoBehaviour
             _dragCoroutine = StartCoroutine(DragObject(hit.distance));
             return;
         }
-    }
-
-    private void OnTriggerEnter2DCallback()
-    {
-        if (cureentDragJoint != -1)
-            Debug.Log("Entered");
-    }
-
-    private void OnTriggerExit2DCallback()
-    {
-        if (cureentDragJoint != -1)
-            Debug.Log("Exited");
     }
 
     private void TryRelease(bool force = false)
