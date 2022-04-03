@@ -47,6 +47,13 @@ public class Menu : MonoBehaviour
         switch (game_state)
         {
             case GameState.splash:
+                if (Input.GetMouseButton(0))
+                {
+                    game_state = GameState.main_menu;
+                    logo.SetActive(false);
+                    main_menu.SetActive(true);
+                    filler.SetActive(true);
+                }
                 if (fade_out)
                 {
                     dt += 0.008f;
