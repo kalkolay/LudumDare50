@@ -242,7 +242,7 @@ public class DragRigidbodyBetter : MonoBehaviour
             TryRelease(true);
             TryGrab(initLeftLegGrabObject.transform.position);
             TryRelease(true);
-            TryGrab(initRightHandGrabObject.transform.position);
+            TryGrab(initRightLegGrabObject.transform.position);
             TryRelease(true);
             _isInitialized = true;
         }

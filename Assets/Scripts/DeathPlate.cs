@@ -6,10 +6,12 @@ public class DeathPlate : MonoBehaviour
 {
     private bool isDead = false;
     public event System.Action OnDead;
+    public Menu menu;
     // Start is called before the first frame update
     void Start()
     {
         isDead = false;
+        OnDead += menu.Death;
     }
 
     // Update is called once per frame
