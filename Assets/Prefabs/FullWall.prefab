@@ -1311,6 +1311,7 @@ MonoBehaviour:
   - {fileID: 8456304839895802044}
   - {fileID: 1297889340995011258}
   - {fileID: 3416400122608315432}
+  MainCamera: {fileID: 0}
 --- !u!1 &6547776050471728664
 GameObject:
   m_ObjectHideFlags: 0
