@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ece4aa056cada949a4d48442d415a11, type: 3}
   m_Name: Settings
   m_EditorClassIdentifier: 
-  slideDownSpeed: 0.005
-  obstaclesFallSpeed: 0.1
+  slideDownSpeed: 0
+  obstaclesFallSpeed: 0
   testScrollSpeed: 0
+  isObstaclesEnabled: 1
   obstaclesInitSpawnDelay: 1
   obstaclesDelayModifier: 0.9
-  closeDownAmount: 0.2
-  isObstaclesEnabled: 0
+  obstaclesSpawnAmount: 3
+  obstaclesWidth: 2.000002
+  obstaclesHeight: 2.0060217
+  wallsCloseDownAmount: 0.3
   triggerWidth: 0.5

@@ -10,9 +10,15 @@ public class GameState : MonoBehaviour
     private WallScript leftWall;
     [SerializeField]
     private WallScript rightWall;
+    [SerializeField]
+    private GameObject DevMenu;
+    [SerializeField]
+    private UnityEngine.UI.Text CurrentHeightLabel;
 
     [System.NonSerialized]
     public static GameState instance = null;
+    [System.NonSerialized]
+    public int currentHeight = 1;
 
     private ObstacleSpawnerScript _spawner;
 
@@ -21,11 +27,17 @@ public class GameState : MonoBehaviour
         instance = this;
         var spawnerGO = Instantiate(spawner, new Vector3(0, 0, 1), Quaternion.identity);
         _spawner = spawnerGO.GetComponent<ObstacleSpawnerScript>();
+        //Time.timeScale = 0f;
     }
 
     void Update()
     {
-        
+        if (Input.GetKeyUp(KeyCode.Delete))
+        {
+            Time.timeScale = DevMenu.activeSelf ? 1 : 0;
+            DevMenu.SetActive(!DevMenu.activeSelf);
+        }
+        CurrentHeightLabel.text = currentHeight.ToString();
     }
 
     public SettingsSO GetSettings()

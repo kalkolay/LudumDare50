@@ -539,7 +539,18 @@ PlayerSettings:
   ps4AllowPS5Detection: 0
   ps4GPU800MHz: 1
   ps4attribEyeToEyeDistanceSettingVR: 0
-  ps4IncludedModules: []
+  ps4IncludedModules:
+  - libc.prx
+  - libSceAudioLatencyEstimation.prx
+  - libSceFace.prx
+  - libSceFaceTracker.prx
+  - libSceFios2.prx
+  - libSceHand.prx
+  - libSceHandTracker.prx
+  - libSceHeadTracker.prx
+  - libSceJobManager.prx
+  - libSceNpToolkit2.prx
+  - libSceS3DConversion.prx
   ps4attribVROutputEnabled: 0
   ps5ParamFilePath: 
   ps5VideoOutPixelFormat: 0
@@ -563,7 +574,14 @@ PlayerSettings:
   ps5UpdateReferencePackage: 
   ps5disableAutoHideSplash: 0
   ps5OperatingSystemCanDisableSplashScreen: 0
-  ps5IncludedModules: []
+  ps5IncludedModules:
+  - libc.prx
+  - libSceFace.prx
+  - libSceFaceTracker.prx
+  - libSceJobManager.prx
+  - libSceJobManager_nosubmission.prx
+  - libSceNpCppWebApi.prx
+  - libScePfs.prx
   ps5SharedBinaryContentLabels: []
   ps5SharedBinarySystemFolders: []
   monoEnv: 

@@ -1,17 +1,45 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    public DragRigidbodyBetter dragBody;
+    public Transform BodyTransform;
+    public DragRigidbodyBetter rigidBody;
+
+    private float _prevBodyPosition;
+    private float _amountToMove = 0;
+    private bool isMoving = false;
 
     void Start()
     {
+        _prevBodyPosition = BodyTransform.position.y;
     }
 
-    void Update()
+    public void OnGrabTrigger()
     {
-        //if (dragBody.currentGrabber is null || !dragBody.currentGrabber.isGrabbing)
-        //    return;
-        //dragBody.currentGrabber.gameObject.transform.Translate(0f, GameState.instance.GetSettings().slideDownSpeed, 0f);
+        var travelDistance = BodyTransform.position.y - _prevBodyPosition;
+        Debug.Log($"Travelled {travelDistance}");
+        if (travelDistance > 0)
+        {
+            _prevBodyPosition = BodyTransform.position.y;
+            _amountToMove += travelDistance;
+            if (!isMoving)
+                StartCoroutine(EnqeueWallMove());
+        }
+    }
+
+    private IEnumerator EnqeueWallMove()
+    {
+        while (_amountToMove > Mathf.Epsilon)
+        {
+            yield return new WaitForEndOfFrame();
+            var travelDistance = Mathf.Min(GameState.instance.GetSettings().testScrollSpeed, _amountToMove);
+            GameState.instance.MoveWalls(travelDistance);
+            rigidBody.MoveAllSprings(-travelDistance);
+            _amountToMove -= travelDistance;
+            if (_amountToMove < Mathf.Epsilon)
+                _amountToMove = 0;
+        }
+        isMoving = false;
     }
 }

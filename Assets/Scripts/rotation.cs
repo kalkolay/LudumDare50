@@ -19,7 +19,6 @@ public class rotation : MonoBehaviour
         renderer = GetComponent<SpriteRenderer>();
         rigidbodier = GetComponent<Rigidbody2D>();
         collider = GetComponent<CircleCollider2D>();
-        Debug.Log("Start");
     }
 
     // Update is called once per frame
@@ -34,7 +33,6 @@ public class rotation : MonoBehaviour
     {
         collided = true;
 
-        Debug.Log("OnCollisionEnter2D");
         prevDrag = rigidbodier.drag;
         prevAngularDrag = rigidbodier.angularDrag;
 
@@ -72,7 +70,6 @@ public class rotation : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        Debug.Log("OnCollisionExit2D");
 
         rigidbodier.drag = prevDrag;
         rigidbodier.angularDrag = prevAngularDrag;

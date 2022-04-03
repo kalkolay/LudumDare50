@@ -27,7 +27,7 @@ public class WallScript : MonoBehaviour
         _opposePositionsToUpdate = IsLeft ? new int[] { 1, 0 } : new int[] { 2, 3 };
         _segmentHeight = Mathf.Abs(Walls[0].spline.GetPosition(_positionsToUpdate[0]).y - Walls[0].spline.GetPosition(_positionsToUpdate[1]).y);
         _deltaModifier = IsLeft ? 1 : -1;
-        _delta = _deltaModifier * GameState.instance.GetSettings().closeDownAmount;
+        _delta = _deltaModifier * GameState.instance.GetSettings().wallsCloseDownAmount;
         UpdatePositions(Walls[0].spline, new int[] { _positionsToUpdate[0] });
         _nextUpdatedWallIndex = -1;
         UpdateCorner(Walls[0]);
@@ -71,6 +71,8 @@ public class WallScript : MonoBehaviour
         UpdateCorner(wallToUpdate);
         UpdateTrigger(_nextUpdatedWallIndex);
         _nextUpdatedWallIndex--;
+        if (IsLeft)
+            GameState.instance.currentHeight++;
     }
 
     private void UpdateCorner(SpriteShapeController wall)

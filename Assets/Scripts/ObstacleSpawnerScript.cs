@@ -21,8 +21,8 @@ public class ObstacleSpawnerScript : MonoBehaviour
 
     void Update()
     {
-        if (GameState.instance.GetSettings().isObstaclesEnabled && _spawnerCoroutine is null)
-            _spawnerCoroutine = StartCoroutine(SpawnObstacleCoroutine());
+        if (Time.timeScale != 0 && GameState.instance.GetSettings().isObstaclesEnabled && _spawnerCoroutine is null)
+            _spawnerCoroutine = StartCoroutine(SpawnObstaclesCoroutine());
     }
 
     private GameObject InstantiateObstacle()
@@ -37,21 +37,28 @@ public class ObstacleSpawnerScript : MonoBehaviour
         _delayModifier *= GameState.instance.GetSettings().obstaclesDelayModifier;
     }
 
-    private IEnumerator SpawnObstacleCoroutine()
+    private IEnumerator SpawnObstaclesCoroutine()
     {
         yield return new WaitForSeconds(GameState.instance.GetSettings().obstaclesInitSpawnDelay * _delayModifier);
+        for (int i = 0; i < GameState.instance.GetSettings().obstaclesSpawnAmount; i++)
+            SpawnObstacle();
+        if (GameState.instance.GetSettings().isObstaclesEnabled)
+            _spawnerCoroutine = StartCoroutine(SpawnObstaclesCoroutine());
+        else
+            _spawnerCoroutine = null;
+    }
+
+    private void SpawnObstacle()
+    {
         var freeObstacle = _spawnedObstacles.FirstOrDefault(x => x.activeSelf == false);
         if (freeObstacle is null)
         {
             freeObstacle = InstantiateObstacle();
             _spawnedObstacles.Add(freeObstacle);
         }
+        freeObstacle.transform.localScale = new Vector3(GameState.instance.GetSettings().obstaclesWidth, GameState.instance.GetSettings().obstaclesHeight, 1);
         var width = freeObstacle.GetComponent<BoxCollider2D>().size.x * freeObstacle.transform.localScale.x / 2;
         freeObstacle.transform.position = new Vector3(Random.Range(GameState.instance.GetRightWall().HighestCorner - width, GameState.instance.GetLeftWall().HighestCorner + width), 5.45f, 0);
         freeObstacle.SetActive(true);
-        if (GameState.instance.GetSettings().isObstaclesEnabled)
-            _spawnerCoroutine = StartCoroutine(SpawnObstacleCoroutine());
-        else
-            _spawnerCoroutine = null;
     }
 }
