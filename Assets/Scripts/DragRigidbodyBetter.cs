@@ -263,36 +263,44 @@ public class DragRigidbodyBetter : MonoBehaviour
 
     private void TryGrab(Vector2 pos)
     {
-        RaycastHit2D hit = Physics2D.Raycast(new Vector2(pos.x, pos.y),
+        RaycastHit2D[] hits;
+        hits = Physics2D.RaycastAll(new Vector2(pos.x, pos.y),
             Vector2.zero, Mathf.Infinity);
-        if (!hit)
+
+        for (int i = 0; i < hits.Length; i++)
+        {
+            RaycastHit2D hit = hits[i];
+
+            if (!hit)
+                continue;
+            Rigidbody2D rb = hit.rigidbody;
+            // We need to hit a rigidbody that is not kinematic
+            if (!rb || rb.isKinematic)
+                continue;
+
+
+            int hitBodyIndex = -1;
+            if (rb == initRightHandGrabObject)
+                hitBodyIndex = 0;
+            if (rb == initLeftHandGrabObject)
+                hitBodyIndex = 1;
+            if (rb == initRightLegGrabObject)
+                hitBodyIndex = 2;
+            if (rb == initLeftLegGrabObject)
+                hitBodyIndex = 3;
+            if (hitBodyIndex == -1)
+                continue;
+
+            currentGrabber = rb.gameObject.GetComponentInChildren<Grabber>();
+
+            if (currentGrabber == null) continue;
+            ReleaseSpring(currentGrabber, hitBodyIndex);
+            CreateSpring(hit, currentGrabber, hitBodyIndex);
+            UpdatePinnedSprings();
+            cureentDragJoint = hitBodyIndex;
+            _dragCoroutine = StartCoroutine(DragObject(hit.distance));
             return;
-        Rigidbody2D rb = hit.rigidbody;
-        // We need to hit a rigidbody that is not kinematic
-        if (!rb || rb.isKinematic)
-            return;
-
-
-        int hitBodyIndex = -1;
-        if (rb == initRightHandGrabObject)
-            hitBodyIndex = 0;
-        if (rb == initLeftHandGrabObject)
-            hitBodyIndex = 1;
-        if (rb == initRightLegGrabObject)
-            hitBodyIndex = 2;
-        if (rb == initLeftLegGrabObject)
-            hitBodyIndex = 3;
-        if (hitBodyIndex == -1)
-            return;
-
-        currentGrabber = rb.gameObject.GetComponentInChildren<Grabber>();
-
-        if (currentGrabber == null) return;
-        ReleaseSpring(currentGrabber, hitBodyIndex);
-        CreateSpring(hit, currentGrabber, hitBodyIndex);
-        UpdatePinnedSprings();
-        cureentDragJoint = hitBodyIndex;
-        _dragCoroutine = StartCoroutine(DragObject(hit.distance));
+        }
     }
 
     private void TryRelease(bool force = false)
