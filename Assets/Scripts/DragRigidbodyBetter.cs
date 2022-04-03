@@ -189,6 +189,12 @@ public class DragRigidbodyBetter : MonoBehaviour
         int iConnectionCount = 0;
         for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
         {
+            if (iLimbIdx == cureentDragJoint)
+            {
+                aLimbConnected[iLimbIdx] = 0;
+                continue;
+            }
+
             aLimbConnected[iLimbIdx] = 0;
             if (connectedJoints[iLimbIdx] != null)
             {
@@ -241,7 +247,7 @@ public class DragRigidbodyBetter : MonoBehaviour
         UpdatePinnedSprings();
         CheckFalling();
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !bFalling)
         {
             TryGrab(mainCamera.ScreenToWorldPoint(Input.mousePosition));
         }
@@ -249,11 +255,7 @@ public class DragRigidbodyBetter : MonoBehaviour
         {
             TryRelease();
         }
-
-
         // We need to actually hit an object
-
-
     }
 
     private void TryGrab(Vector2 pos)
@@ -327,7 +329,6 @@ public class DragRigidbodyBetter : MonoBehaviour
         springJoint.transform.position = hit.point;
         springJoint.anchor = Vector3.zero;
 
-
         springJoint.dampingRatio = Damper;
         springJoint.autoConfigureDistance = false;
         springJoint.distance = 0;
@@ -360,7 +361,8 @@ public class DragRigidbodyBetter : MonoBehaviour
         {
             var draggedJoint = cureentDragJoint == -1 ? null : connectedJoints[cureentDragJoint];
             if (draggedJoint is null) yield break;
-            draggedJoint.transform.position = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            draggedJoint.transform.position = mainCamera.ScreenToWorldPoint(Input.mousePosition);           
+
             yield return null;
         }
     }
