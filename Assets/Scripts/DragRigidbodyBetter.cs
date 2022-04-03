@@ -278,7 +278,6 @@ public class DragRigidbodyBetter : MonoBehaviour
             if (!rb || rb.isKinematic)
                 continue;
 
-
             int hitBodyIndex = -1;
             if (rb == initRightHandGrabObject)
                 hitBodyIndex = 0;
@@ -294,6 +293,8 @@ public class DragRigidbodyBetter : MonoBehaviour
             currentGrabber = rb.gameObject.GetComponentInChildren<Grabber>();
 
             if (currentGrabber == null) continue;
+            currentGrabber.OnTriggerEnter2DCallback = OnTriggerEnter2DCallback;
+            currentGrabber.OnTriggerExit2DCallback = OnTriggerExit2DCallback;
             ReleaseSpring(currentGrabber, hitBodyIndex);
             CreateSpring(hit, currentGrabber, hitBodyIndex);
             UpdatePinnedSprings();
@@ -303,6 +304,18 @@ public class DragRigidbodyBetter : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2DCallback()
+    {
+        if (cureentDragJoint != -1)
+            Debug.Log("Entered");
+    }
+
+    private void OnTriggerExit2DCallback()
+    {
+        if (cureentDragJoint != -1)
+            Debug.Log("Exited");
+    }
+
     private void TryRelease(bool force = false)
     {
         if (currentGrabber != null)
@@ -310,7 +323,7 @@ public class DragRigidbodyBetter : MonoBehaviour
             if (!(_dragCoroutine is null))
                 StopCoroutine(_dragCoroutine);
             var springJoint = cureentDragJoint == -1 ? null : connectedJoints[cureentDragJoint];
-            if ((currentGrabber.CanGrab || force) && !(springJoint is null))
+            if ((IsCloseToWall() || force) && !(springJoint is null))
             {
                 springJoint.transform.position = GameState.instance.GetConnectToWallPosition(springJoint.transform.position);
                 currentGrabber.Grab(springJoint);
@@ -374,11 +387,24 @@ public class DragRigidbodyBetter : MonoBehaviour
         {
             var draggedJoint = cureentDragJoint == -1 ? null : connectedJoints[cureentDragJoint];
             if (draggedJoint is null) yield break;
-            draggedJoint.transform.position = mainCamera.ScreenToWorldPoint(Input.mousePosition);           
+            var mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            var closestPosition = GameState.instance.GetConnectToWallPosition(mousePosition);
+            if (IsCloseToWall())
+                draggedJoint.transform.position = closestPosition;
+            else
+                draggedJoint.transform.position = mousePosition;
 
             yield return null;
         }
     }
+
+    private bool IsCloseToWall()
+    {
+        var mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        var closestPosition = GameState.instance.GetConnectToWallPosition(mousePosition);
+        return Mathf.Abs(mousePosition.x - closestPosition.x) < 0.8;
+    }
+
 
 
     private void UpdatePinnedSprings()
