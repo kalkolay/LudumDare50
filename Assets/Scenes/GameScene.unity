@@ -4716,7 +4716,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8308496128500607176, guid: a2b2f5d4ce08d2c4fa275caa84fa182d, type: 3}
+    - {fileID: 8308496126819857666, guid: a2b2f5d4ce08d2c4fa275caa84fa182d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a2b2f5d4ce08d2c4fa275caa84fa182d, type: 3}
 --- !u!233 &1491205030 stripped
 HingeJoint2D:
@@ -7921,6 +7923,8 @@ MonoBehaviour:
   RightLegBoneJoint: {fileID: 1491205030}
   LeftLegBoneJoint: {fileID: 1491205034}
   fLimbExtentionMax: 0.4
+  fSlipCoef: 0.1
+  aLimbConnected: 00000000000000000000000000000000
 --- !u!1 &2112374997
 GameObject:
   m_ObjectHideFlags: 0
