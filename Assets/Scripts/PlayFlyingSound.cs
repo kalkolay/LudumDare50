@@ -7,6 +7,7 @@ public class PlayFlyingSound : MonoBehaviour
     AudioClip contact_sound;
     AudioClip svist_sound;
     AudioSource audio_source;
+    bool collided_once;
     
     void Start()
     {
@@ -18,6 +19,7 @@ public class PlayFlyingSound : MonoBehaviour
         audio_source.clip = svist_sound;
         audio_source.PlayOneShot(svist_sound);
         audio_source.volume = 0.4f;
+        collided_once = false;
     }
     
     void PlaySoundContact()
@@ -29,6 +31,10 @@ public class PlayFlyingSound : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        PlaySoundContact();
+        if (!collided_once)
+        {
+            PlaySoundContact();
+            collided_once = true;
+        }
     }
 }
