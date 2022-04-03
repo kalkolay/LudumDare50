@@ -11,8 +11,10 @@ public class Menu : MonoBehaviour
     public GameObject credits;
     public GameObject logo;
     public GameObject pause;
+    public GameObject death;
+    public GameObject filler;           // background filler related with fixed sized sprite of main menu
     Animator _anim;
-    enum GameState {splash, main_menu, credits, game, pause};
+    enum GameState {splash, main_menu, credits, game, pause, death};
     GameState game_state;
     bool fade_out;
     bool fade_in;
@@ -27,6 +29,8 @@ public class Menu : MonoBehaviour
         credits.SetActive(false);
         pause.SetActive(false);
         logo.SetActive(true);
+        death.SetActive(false);
+        filler.SetActive(false);
         _anim = GetComponentInChildren<Animator>();
         fade_out = true;
         fade_in = false;
@@ -43,7 +47,7 @@ public class Menu : MonoBehaviour
             case GameState.splash:
                 if (fade_out)
                 {
-                    dt += 0.0025f;
+                    dt += 0.008f;
                     logo.GetComponent<LogoLoad>().SetAlpha(dt);
                     if (dt > 1)
                     {
@@ -53,12 +57,13 @@ public class Menu : MonoBehaviour
                 }
                 if (fade_in)
                 {
-                    dt -= 0.0025f;
+                    dt -= 0.008f;
                     if (dt < 0)
                     {
                         game_state = GameState.main_menu;
                         logo.SetActive(false);
                         main_menu.SetActive(true);
+                        filler.SetActive(true);
                     }
                     logo.GetComponent<LogoLoad>().SetAlpha(dt);
                     
@@ -82,6 +87,10 @@ public class Menu : MonoBehaviour
                     pause.SetActive(true);
                     game_state = GameState.pause;
                 }
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    Death();
+                }
                 break;
             case GameState.pause:
                 if (Input.GetKeyDown(KeyCode.Escape))
@@ -92,10 +101,20 @@ public class Menu : MonoBehaviour
                     game_state = GameState.game;
                 }
                 break;
+            case GameState.death:
+                if (fade_out)
+                {
+                    dt += 0.008f;
+                    death.GetComponent<DeathRend>().SetAlpha(dt);
+                    if (dt > 3)
+                    {
+                        fade_out = false;
+                    }
+                }
+                break;
         }
         if ((Input.GetKeyDown(KeyCode.Escape)) && (credits.activeInHierarchy == true))
         {
-            Debug.Log("ESC was pressed!");
             main_menu.SetActive(true);
             credits.SetActive(false);
         }
@@ -103,7 +122,6 @@ public class Menu : MonoBehaviour
 
     public void PlayPressed()
     {
-        Debug.Log("Start pressed!");
         _anim.SetTrigger("Menu");
         game_state = GameState.game;
         Physics.autoSimulation = true;
@@ -111,6 +129,7 @@ public class Menu : MonoBehaviour
         main_menu.SetActive(false);
         logo.SetActive(false);
         credits.SetActive(false);
+        filler.SetActive(false);
     }
 
     public void CreditsPressed()
@@ -119,13 +138,11 @@ public class Menu : MonoBehaviour
         main_menu.SetActive(false);
         credits.SetActive(true);
         game_state = GameState.credits;
-        Debug.Log("Credits pressed!");
     }
 
     public void ExitPressed()
     {
         Application.Quit();
-        Debug.Log("Exit pressed!");
     }
 
     public void ResumePressed()
@@ -138,7 +155,22 @@ public class Menu : MonoBehaviour
 
     public void RestartPressed()
     {
-        // todo
+        if (game_state == GameState.death)
+        {
+            death.GetComponent<DeathRend>().SetTransparent();
+            death.GetComponent<DeathRend>().ResetScore();
+            death.SetActive(false);
+            game_state = GameState.game;
+        }
+    }
+
+    public void Death()
+    {
+        game_state = GameState.death;
+        dt = 0;
+        fade_out = true;
+        death.SetActive(true);
+        death.GetComponent<DeathRend>().SetScore(1488);
     }
 }
 
