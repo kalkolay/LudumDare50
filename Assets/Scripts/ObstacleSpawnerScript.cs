@@ -82,6 +82,7 @@ public class ObstacleSpawnerScript : MonoBehaviour
         freeObstacle.transform.position = new Vector3(Random.Range(GameState.instance.GetRightWall().HighestCorner - width, GameState.instance.GetLeftWall().HighestCorner + width), 5.45f, 0);
         freeObstacle.GetComponent<SpriteRenderer>().sprite = obstacleType.Sprites[spriteIndex];
         freeObstacle.SetActive(true);
+        freeObstacle.AddComponent<PlayFlyingSound>();
     }
 }
 

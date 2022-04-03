@@ -173,7 +173,7 @@ public class Menu : MonoBehaviour
         dt = 0;
         fade_out = true;
         death.SetActive(true);
-        death.GetComponent<DeathRend>().SetScore(1488);
+        //death.GetComponent<DeathRend>().SetScore(1488);
     }
 }
 
