@@ -10,18 +10,19 @@ public class ObstacleSpawnerScript : MonoBehaviour
 
     private List<GameObject> _spawnedObstacles = new List<GameObject>();
     private float _delayModifier;
+    private Coroutine _spawnerCoroutine;
 
     void Awake()
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 4; i++)
             _spawnedObstacles.Add(InstantiateObstacle());
         _delayModifier = 1f;
-        StartCoroutine(SpawnObstacleCoroutine());
     }
 
     void Update()
     {
-        
+        if (GameState.instance.GetSettings().isObstaclesEnabled && _spawnerCoroutine is null)
+            _spawnerCoroutine = StartCoroutine(SpawnObstacleCoroutine());
     }
 
     private GameObject InstantiateObstacle()
@@ -38,8 +39,6 @@ public class ObstacleSpawnerScript : MonoBehaviour
 
     private IEnumerator SpawnObstacleCoroutine()
     {
-        if (!GameState.instance.GetSettings().isObstaclesEnabled)
-            yield break;
         yield return new WaitForSeconds(GameState.instance.GetSettings().obstaclesInitSpawnDelay * _delayModifier);
         var freeObstacle = _spawnedObstacles.FirstOrDefault(x => x.activeSelf == false);
         if (freeObstacle is null)
@@ -50,6 +49,9 @@ public class ObstacleSpawnerScript : MonoBehaviour
         var width = freeObstacle.GetComponent<BoxCollider2D>().size.x * freeObstacle.transform.localScale.x / 2;
         freeObstacle.transform.position = new Vector3(Random.Range(GameState.instance.GetRightWall().HighestCorner - width, GameState.instance.GetLeftWall().HighestCorner + width), 5.45f, 0);
         freeObstacle.SetActive(true);
-        StartCoroutine(SpawnObstacleCoroutine());
+        if (GameState.instance.GetSettings().isObstaclesEnabled)
+            _spawnerCoroutine = StartCoroutine(SpawnObstacleCoroutine());
+        else
+            _spawnerCoroutine = null;
     }
 }
