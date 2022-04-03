@@ -27,7 +27,7 @@ public class DeathPlate : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (!isDead)
+        if (col.tag == "Player" && !isDead)
         {
             Debug.Log("You Die");
             OnDead?.Invoke();
