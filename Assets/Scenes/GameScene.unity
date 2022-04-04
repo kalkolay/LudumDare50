@@ -6037,6 +6037,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BodyAndController
       objectReference: {fileID: 0}
+    - target: {fileID: 4023267246248796822, guid: a2b2f5d4ce08d2c4fa275caa84fa182d,
+        type: 3}
+      propertyPath: m_TagString
+      value: GrandDed
+      objectReference: {fileID: 0}
     - target: {fileID: 4023267246248796823, guid: a2b2f5d4ce08d2c4fa275caa84fa182d,
         type: 3}
       propertyPath: m_RootOrder
@@ -7338,6 +7343,8 @@ MonoBehaviour:
   death: {fileID: 1323528343}
   filler: {fileID: 440790705}
   deathPlate: {fileID: 594049062}
+  player_script: {fileID: 41245423}
+  game_state_obj: {fileID: 2110872723}
 --- !u!114 &1768232881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9532,6 +9539,9 @@ MonoBehaviour:
   Sky: {fileID: 1766302716}
   Floor: {fileID: 594049059}
   CurrentHeightLabel: {fileID: 1465300612}
+  DedPrefab: {fileID: 4023267246248796822, guid: a2b2f5d4ce08d2c4fa275caa84fa182d,
+    type: 3}
+  menu: {fileID: 1768232880}
 --- !u!4 &2110872724
 Transform:
   m_ObjectHideFlags: 0

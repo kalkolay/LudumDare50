@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SoundManager
   - Stone
+  - GrandDed
   layers:
   - Default
   - TransparentFX

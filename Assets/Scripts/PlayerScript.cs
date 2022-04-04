@@ -13,6 +13,7 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         _prevBodyPosition = BodyTransform.position.y;
+        MainCmera = Camera.main;
     }
 
     public void OnGrabTrigger()
@@ -37,6 +38,28 @@ public class PlayerScript : MonoBehaviour
             MainCmera.transform.Translate(new Vector3(0, travelDistance, 0));
             _amountToMove -= travelDistance;
             if (_amountToMove < Mathf.Epsilon)
+                _amountToMove = 0;
+        }
+        isMoving = false;
+    }
+
+    public void Restart()
+    {
+        _amountToMove = -MainCmera.transform.position.y;
+        if (!isMoving)
+            StartCoroutine(RestartWallMove());
+    }
+
+    private IEnumerator RestartWallMove()
+    {
+        while (-_amountToMove > Mathf.Epsilon)
+        {
+            yield return new WaitForEndOfFrame();
+            var travelDistance = Mathf.Max(-0.05f, _amountToMove);
+            GameState.instance.OnCameraMove(travelDistance);
+            MainCmera.transform.Translate(new Vector3(0, travelDistance, 0));
+            _amountToMove -= travelDistance;
+            if (-_amountToMove < Mathf.Epsilon)
                 _amountToMove = 0;
         }
         isMoving = false;

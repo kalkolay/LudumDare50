@@ -14,10 +14,12 @@ public class Menu : MonoBehaviour
     public GameObject death;
     public GameObject filler;           // background filler related with fixed sized sprite of main menu
     public DeathPlate deathPlate;
+    public PlayerScript player_script;
+    public GameState game_state_obj;
 
     Animator _anim;
-    enum GameState {splash, main_menu, credits, game, pause, death};
-    GameState game_state;
+    enum GameStateEnum {splash, main_menu, credits, game, pause, death};
+    GameStateEnum game_state;
     bool fade_out;
     bool fade_in;
     float dt;
@@ -26,7 +28,7 @@ public class Menu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        game_state = GameState.splash;
+        game_state = GameStateEnum.splash;
         main_menu.SetActive(false);
         credits.SetActive(false);
         pause.SetActive(false);
@@ -44,12 +46,16 @@ public class Menu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // strange thing - it is deleted after one update after death
+        if (player_script == null)
+            RestartReinitScript();
+
         switch (game_state)
         {
-            case GameState.splash:
+            case GameStateEnum.splash:
                 if (Input.GetMouseButton(0))
                 {
-                    game_state = GameState.main_menu;
+                    game_state = GameStateEnum.main_menu;
                     logo.SetActive(false);
                     main_menu.SetActive(true);
                     filler.SetActive(true);
@@ -69,7 +75,7 @@ public class Menu : MonoBehaviour
                     dt -= 0.008f;
                     if (dt < 0)
                     {
-                        game_state = GameState.main_menu;
+                        game_state = GameStateEnum.main_menu;
                         logo.SetActive(false);
                         main_menu.SetActive(true);
                         filler.SetActive(true);
@@ -78,39 +84,39 @@ public class Menu : MonoBehaviour
                     
                 }
                 break;
-            case GameState.main_menu:
+            case GameStateEnum.main_menu:
 
                 break;
-            case GameState.credits:
+            case GameStateEnum.credits:
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     main_menu.SetActive(true);
                     credits.SetActive(false);
                 }
                 break;
-            case GameState.game:
+            case GameStateEnum.game:
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     Physics.autoSimulation = false;
                     Time.timeScale = 0;
                     pause.SetActive(true);
-                    game_state = GameState.pause;
+                    game_state = GameStateEnum.pause;
                 }
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
                     Death();
                 }
                 break;
-            case GameState.pause:
+            case GameStateEnum.pause:
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     Physics.autoSimulation = true;
                     Time.timeScale = 1;
                     pause.SetActive(false);
-                    game_state = GameState.game;
+                    game_state = GameStateEnum.game;
                 }
                 break;
-            case GameState.death:
+            case GameStateEnum.death:
                 if (fade_out)
                 {
                     dt += 0.008f;
@@ -122,17 +128,12 @@ public class Menu : MonoBehaviour
                 }
                 break;
         }
-        if ((Input.GetKeyDown(KeyCode.Escape)) && (credits.activeInHierarchy == true))
-        {
-            main_menu.SetActive(true);
-            credits.SetActive(false);
-        }
     }
 
     public void PlayPressed()
     {
         _anim.SetTrigger("Menu");
-        game_state = GameState.game;
+        game_state = GameStateEnum.game;
         Physics.autoSimulation = true;
         Time.timeScale = 1;
         main_menu.SetActive(false);
@@ -147,7 +148,7 @@ public class Menu : MonoBehaviour
         Debug.Log("main_menu"+ main_menu);
         main_menu.SetActive(false);
         credits.SetActive(true);
-        game_state = GameState.credits;
+        game_state = GameStateEnum.credits;
     }
 
     public void ExitPressed()
@@ -160,27 +161,37 @@ public class Menu : MonoBehaviour
         Physics.autoSimulation = true;
         Time.timeScale = 1;
         pause.SetActive(false);
-        game_state = GameState.game;
+        game_state = GameStateEnum.game;
     }
 
     public void RestartPressed()
     {
-        if (game_state == GameState.death)
+        if (game_state == GameStateEnum.death)
         {
             death.GetComponent<DeathRend>().SetTransparent();
             death.GetComponent<DeathRend>().ResetScore();
             death.SetActive(false);
-            game_state = GameState.game;
+            game_state = GameStateEnum.game;
+            player_script.Restart();
+            game_state_obj.Restart();
+            deathPlate.Restart();
         }
     }
 
     public void Death()
     {
-        game_state = GameState.death;
+        game_state = GameStateEnum.death;
         dt = 0;
         fade_out = true;
         death.SetActive(true);
         //death.GetComponent<DeathRend>().SetScore(1488);
+    }
+
+    public void RestartReinitScript()
+    {
+        GameObject[] Fathers = GameObject.FindGameObjectsWithTag("GrandDed");
+        GameObject GrandDed = Fathers[0];
+        player_script = GrandDed.transform.Find("Controller").GetComponent<PlayerScript>();
     }
 }
 
