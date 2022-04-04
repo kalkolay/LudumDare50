@@ -47,7 +47,7 @@ public class Menu : MonoBehaviour
     void Update()
     {
         // strange thing - it is deleted after one update after death
-        if (player_script == null)
+        if (player_script == null || game_state_obj == null)
             RestartReinitScript();
 
         switch (game_state)
@@ -191,6 +191,8 @@ public class Menu : MonoBehaviour
         GameObject[] Fathers = GameObject.FindGameObjectsWithTag("GrandDed");
         GameObject GrandDed = Fathers[0];
         player_script = GrandDed.transform.Find("Controller").GetComponent<PlayerScript>();
+        GameObject[] GS = GameObject.FindGameObjectsWithTag("GameState");
+        game_state_obj = GS[0].GetComponent<GameState>();
     }
 }
 
