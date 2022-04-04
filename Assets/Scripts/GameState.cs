@@ -103,6 +103,7 @@ public class GameState : MonoBehaviour
 
     public void Restart()
     {
+        _spawner.DisableObstcales();
         GameObject[] Fathers = GameObject.FindGameObjectsWithTag("GrandDed");
         GameObject DedFather = Fathers[0];
         Object.Destroy(DedFather);

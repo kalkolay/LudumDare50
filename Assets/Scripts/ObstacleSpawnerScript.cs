@@ -93,6 +93,14 @@ public class ObstacleSpawnerScript : MonoBehaviour
         }
         sound.SetStoneSound((int)obstacleType.MinDelay);
     }
+
+    public void DisableObstcales()
+    {
+        foreach(GameObject obs in _spawnedObstacles)
+        {
+            obs.SetActive(false);
+        }
+    }
 }
 
 public class ObstacleType
