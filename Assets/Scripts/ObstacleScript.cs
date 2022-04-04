@@ -4,6 +4,7 @@ public class ObstacleScript : MonoBehaviour
 {
     Rigidbody2D rigidBody;
     bool isMultiplayed = false;
+    public float speedModifier = 1;
 
     void Awake()
     {
@@ -15,6 +16,8 @@ public class ObstacleScript : MonoBehaviour
         if (rigidBody.velocity.magnitude > GameState.instance.GetSettings().obstacleMaxSpeed)
         {
             rigidBody.velocity = rigidBody.velocity.normalized * GameState.instance.GetSettings().obstacleMaxSpeed;
+            if (isMultiplayed)
+                rigidBody.velocity *= speedModifier;
         }
     }
 

@@ -14,12 +14,14 @@ public class Menu : MonoBehaviour
     public GameObject pause;
     public GameObject death;
     public GameObject filler;           // background filler related with fixed sized sprite of main menu
-    public DeathPlate deathPlate;
-    public PlayerScript player_script;
-    public GameState game_state_obj;
+    //public DeathPlate deathPlate;
+    public GameObject win;
+    //public PlayerScript player_script;
+    //public GameState game_state_obj;
+    public SoundManager sound_manager;
 
     Animator _anim;
-    enum GameStateEnum {splash, main_menu, credits, game, pause, death};
+    enum GameStateEnum {splash, main_menu, credits, game, pause, death, win};
     GameStateEnum game_state;
     bool fade_out;
     bool fade_in;
@@ -37,6 +39,7 @@ public class Menu : MonoBehaviour
         logo.SetActive(true);
         death.SetActive(false);
         filler.SetActive(false);
+        win.SetActive(false);
         _anim = GetComponentInChildren<Animator>();
         fade_out = true;
         fade_in = false;
@@ -55,6 +58,7 @@ public class Menu : MonoBehaviour
         switch (game_state)
         {
             case GameStateEnum.splash:
+                sound_manager.SetVolume(0);
                 if (Input.GetMouseButton(0))
                 {
                     game_state = GameStateEnum.main_menu;
@@ -87,10 +91,10 @@ public class Menu : MonoBehaviour
                 }
                 break;
             case GameStateEnum.main_menu:
-
+                sound_manager.SetVolume(1);
                 break;
             case GameStateEnum.credits:
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (Input.anyKey)
                 {
                     main_menu.SetActive(true);
                     credits.SetActive(false);
@@ -106,7 +110,7 @@ public class Menu : MonoBehaviour
                 }
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
-                    Death();
+                    Win();
                 }
                 break;
             case GameStateEnum.pause:
@@ -121,9 +125,20 @@ public class Menu : MonoBehaviour
             case GameStateEnum.death:
                 if (fade_out)
                 {
-                    dt += 0.008f;
+                    dt += 0.016f;
                     death.GetComponent<DeathRend>().SetAlpha(dt);
-                    if (dt > 3)
+                    if (dt > 1)
+                    {
+                        fade_out = false;
+                    }
+                }
+                break;
+            case GameStateEnum.win:
+                if (fade_out)
+                {
+                    dt += 0.016f;
+                    win.GetComponent<DeathRend>().SetAlpha(dt);
+                    if (dt > 1)
                     {
                         fade_out = false;
                     }
@@ -142,8 +157,11 @@ public class Menu : MonoBehaviour
         logo.SetActive(false);
         credits.SetActive(false);
         filler.SetActive(false);
-        //deathPlate.onNewGame();
         StartGame();
+        //deathPlate.onNewGame();
+        //player_script.Restart();
+        //game_state_obj.Restart();
+        //deathPlate.Restart();
     }
 
     public void CreditsPressed()
@@ -159,6 +177,20 @@ public class Menu : MonoBehaviour
         Application.Quit();
     }
 
+    public void ExitToMenu()
+    {
+        if (game_state == GameStateEnum.pause)
+            pause.SetActive(false);
+        if (game_state == GameStateEnum.death)
+            death.SetActive(false);
+        if (game_state == GameStateEnum.win)
+            win.SetActive(false);
+        Physics.autoSimulation = false;
+        Time.timeScale = 0;
+        game_state = GameStateEnum.main_menu;
+        main_menu.SetActive(true);
+    }
+
     public void ResumePressed()
     {
         Physics.autoSimulation = true;
@@ -169,21 +201,36 @@ public class Menu : MonoBehaviour
 
     public void RestartPressed()
     {
+        Physics.autoSimulation = true;
+        Time.timeScale = 1;
+        //player_script.Restart();
+        //game_state_obj.Restart();
+        //deathPlate.Restart();
         if (game_state == GameStateEnum.death)
         {
-            death.GetComponent<DeathRend>().SetTransparent();
             //death.GetComponent<DeathRend>().ResetScore();
-            death.SetActive(false);
-            game_state = GameStateEnum.game;
             //player_script.Restart();
             //game_state_obj.Restart();
             //deathPlate.Restart();
             StartGame();
+            death.SetActive(false);
         }
+        if (game_state == GameStateEnum.pause)
+        {
+            pause.SetActive(false);
+        }
+        if (game_state == GameStateEnum.win)
+        {
+            win.GetComponent<DeathRend>().SetTransparent();
+            win.SetActive(false);
+        }
+        game_state = GameStateEnum.game;
     }
 
     public void Death()
     {
+        Physics.autoSimulation = false;
+        Time.timeScale = 0;
         game_state = GameStateEnum.death;
         dt = 0;
         fade_out = true;
@@ -194,9 +241,9 @@ public class Menu : MonoBehaviour
     {
         GameObject[] Fathers = GameObject.FindGameObjectsWithTag("GrandDed");
         GameObject GrandDed = Fathers[0];
-        player_script = GrandDed.transform.Find("Controller").GetComponent<PlayerScript>();
+        //player_script = GrandDed.transform.Find("Controller").GetComponent<PlayerScript>();
         GameObject[] GS = GameObject.FindGameObjectsWithTag("GameState");
-        game_state_obj = GS[0].GetComponent<GameState>();
+        //game_state_obj = GS[0].GetComponent<GameState>();
     }
 
     private void StartGame()
@@ -206,6 +253,16 @@ public class Menu : MonoBehaviour
         Camera.main.transform.position = new Vector3(0, 0, -10);
         _currentGame = Instantiate(FullGamePrefab);
         GameState.instance.AddMenu(this);
+    }
+
+    public void Win()
+    {
+        Physics.autoSimulation = false;
+        Time.timeScale = 0;
+        game_state = GameStateEnum.win;
+        dt = 0;
+        fade_out = true;
+        win.SetActive(true);
     }
 }
 

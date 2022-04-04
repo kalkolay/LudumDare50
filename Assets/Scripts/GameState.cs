@@ -32,6 +32,8 @@ public class GameState : MonoBehaviour
     public Menu menu;
 
     public int Score;
+    private float floorPosZ;
+    private float skyPosZ;
 
     void Awake()
     {
@@ -40,6 +42,8 @@ public class GameState : MonoBehaviour
         _spawner = spawnerGO.GetComponent<ObstacleSpawnerScript>();
         Sky.GetComponent<DeathPlate>().OnDead += SpawnDed;
         Sky.SetActive(false);
+        floorPosZ = Floor.transform.position.y;
+        skyPosZ = Sky.transform.position.y;
     }
 
     public SettingsSO GetSettings()
@@ -93,15 +97,7 @@ public class GameState : MonoBehaviour
 
     public void Restart()
     {
-        StartCoroutine(WaitForCameraShiftToDniwe());
-    }
-
-    private IEnumerator WaitForCameraShiftToDniwe()
-    {
-        while (Camera.main.transform.position.y > 0.001f)
-        {
-            yield return new WaitForEndOfFrame();
-        }
+        _spawner.DisableObstcales();
         GameObject[] Fathers = GameObject.FindGameObjectsWithTag("GrandDed");
         GameObject DedFather = Fathers[0];
         Object.Destroy(DedFather);
@@ -109,6 +105,8 @@ public class GameState : MonoBehaviour
         newDed.gameObject.tag = "GrandDed";
         GetComponent<DragRigidbodyBetter>().ReInitDeda(newDed);
         menu.RestartReinitScript();
+        Floor.transform.Translate( new Vector3(0, floorPosZ, 0) - Floor.transform.position);
+        Sky.transform.Translate(new Vector3(0, skyPosZ, 0) - Sky.transform.position);
     }
 
     private void SpawnDed()

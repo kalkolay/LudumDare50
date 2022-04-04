@@ -7,19 +7,36 @@ public class PlayFlyingSound : MonoBehaviour
     AudioClip contact_sound;
     AudioClip svist_sound;
     AudioSource audio_source;
+    SoundManager sound_manager;
     bool collided_once;
-    
-    void Start()
+    int stone_size;
+
+    GameObject goPlayerHead = null;
+
+    void Awake()
     {
-        GameObject[] sm = GameObject.FindGameObjectsWithTag("SoundManager");
-        SoundManager sound_manager = sm[0].GetComponent<SoundManager>();
-        audio_source = gameObject.AddComponent<AudioSource>() as AudioSource;
-        contact_sound = sound_manager.GetContactSound(SoundManager.sound_type.dirt);
-        svist_sound = sound_manager.GetFlyingSound();
+        MakeDefault();
+    }
+
+    public void Update()
+    {
+        if (goPlayerHead.Equals(null))
+        {
+            GameObject[] lPlayerHeadGOs = GameObject.FindGameObjectsWithTag("Player");
+
+            if (lPlayerHeadGOs.Length > 0)
+            {
+                goPlayerHead = lPlayerHeadGOs[0];
+            }
+        }
+    }
+
+    public void SetStoneSound(int type)
+    {
+        svist_sound = sound_manager.GetFlyingSound(type);
         audio_source.clip = svist_sound;
-        audio_source.PlayOneShot(svist_sound);
         audio_source.volume = 0.4f;
-        collided_once = false;
+        audio_source.PlayOneShot(svist_sound);
     }
     
     void PlaySoundContact()
@@ -29,12 +46,41 @@ public class PlayFlyingSound : MonoBehaviour
         audio_source.PlayOneShot(contact_sound);
     }
 
+    public void MakeDefault()
+    {
+        GameObject[] sm = GameObject.FindGameObjectsWithTag("SoundManager");
+        GameObject[] lPlayerHeadGOs = GameObject.FindGameObjectsWithTag("Player");
+
+        if (lPlayerHeadGOs.Length > 0)
+        {
+            goPlayerHead = lPlayerHeadGOs[0];
+        }
+
+        sound_manager = sm[0].GetComponent<SoundManager>();
+        audio_source = gameObject.AddComponent<AudioSource>() as AudioSource;
+        contact_sound = sound_manager.GetContactSound(SoundManager.sound_type.dirt);
+        collided_once = false;
+        audio_source.loop = false;
+        audio_source.playOnAwake = false;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collided_once)
+        if (!goPlayerHead.Equals(null))
         {
-            PlaySoundContact();
-            collided_once = true;
+            if (!collided_once && gameObject.transform.position.y < goPlayerHead.transform.position.y + 3.0f)
+            {
+                if (collision.gameObject.tag == "Stone")
+                {
+                    contact_sound = sound_manager.GetContactSound(SoundManager.sound_type.brick);
+                }
+                else
+                {
+                    contact_sound = sound_manager.GetContactSound(SoundManager.sound_type.dirt);
+                }
+                PlaySoundContact();
+                collided_once = true;
+            }
         }
     }
 }
