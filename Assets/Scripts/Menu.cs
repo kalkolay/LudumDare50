@@ -29,6 +29,8 @@ public class Menu : MonoBehaviour
     float prev_time;
     private GameObject _currentGame;
 
+    public event System.Action OnRestart;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -228,6 +230,8 @@ public class Menu : MonoBehaviour
         }
         filler.SetActive(false);
         game_state = GameStateEnum.game;
+
+        OnRestart?.Invoke();
     }
 
     public void Death()

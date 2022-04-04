@@ -186,6 +186,9 @@ public class DragRigidbodyBetter : MonoBehaviour
                 ReleaseSpring(grLimbs[iLimbIdx], iLimbIdx);
             }
             onDedFall?.Invoke();
+            GameObject goMusic = GameObject.FindGameObjectWithTag("MusicManager");
+            MusicManager mm = goMusic.GetComponent<MusicManager>();
+            mm.setFallingStart();
         }
     }
 

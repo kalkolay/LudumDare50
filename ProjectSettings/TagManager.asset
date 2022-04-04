@@ -9,6 +9,9 @@ TagManager:
   - GrandDed
   - GameState
   - PlayerPart
+  - FullGameState
+  - Menu
+  - MusicManager
   layers:
   - Default
   - TransparentFX
