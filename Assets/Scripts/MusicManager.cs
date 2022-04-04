@@ -6,7 +6,7 @@ public class MusicManager : MonoBehaviour
 {
     AudioSource source;
     AudioClip track;
-    float music_volume_scale = 0.1f;
+    float music_volume_scale = 0.7f;
     bool flag_music_loop = false;
     // Start is called before the first frame update
     void Start()
