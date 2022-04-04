@@ -31,6 +31,19 @@ public class PlayFlyingSound : MonoBehaviour
         audio_source.playOnAwake = false;
     }
 
+    public void Update()
+    {
+        if (goPlayerHead.Equals(null))
+        {
+            GameObject[] lPlayerHeadGOs = GameObject.FindGameObjectsWithTag("Player");
+
+            if (lPlayerHeadGOs.Length > 0)
+            {
+                goPlayerHead = lPlayerHeadGOs[0];
+            }
+        }
+    }
+
     public void SetStoneSound(int type)
     {
         svist_sound = sound_manager.GetFlyingSound(type);
@@ -48,10 +61,21 @@ public class PlayFlyingSound : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collided_once && !(goPlayerHead is null) && gameObject.transform.position.y < goPlayerHead.transform.position.y + 3.0f)
+        if (!goPlayerHead.Equals(null))
         {
-            PlaySoundContact();
-            collided_once = true;
+            if (!collided_once && gameObject.transform.position.y < goPlayerHead.transform.position.y + 3.0f)
+            {
+                if (collision.gameObject.tag == "Stone")
+                {
+                    contact_sound = sound_manager.GetContactSound(SoundManager.sound_type.brick);
+                }
+                else
+                {
+                    contact_sound = sound_manager.GetContactSound(SoundManager.sound_type.dirt);
+                }
+                PlaySoundContact();
+                collided_once = true;
+            }
         }
     }
 }

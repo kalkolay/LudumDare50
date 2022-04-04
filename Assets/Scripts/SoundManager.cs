@@ -44,6 +44,7 @@ public class SoundManager : MonoBehaviour
     AudioClip stones_medium;
     AudioClip stones_small;
     AudioClip stones_punch;
+    AudioClip brick_colliding;
     List<AudioClip> gryaz = new List<AudioClip>();
     List<AudioClip> svist = new List<AudioClip>();
     List<AudioClip> zhelezo = new List<AudioClip>();
@@ -52,7 +53,8 @@ public class SoundManager : MonoBehaviour
     {
         dirt = 1,
         metal = 2,
-        wood = 3
+        wood = 3,
+        brick = 4
     }
 
     private void Awake()
@@ -131,6 +133,8 @@ public class SoundManager : MonoBehaviour
         stones_medium = (AudioClip)Resources.Load("Sounds/kamni_medium");
         stones_small = (AudioClip)Resources.Load("Sounds/kamni_small");
         stones_punch = (AudioClip)Resources.Load("Sounds/lopata_4");
+
+        brick_colliding = (AudioClip)Resources.Load("Sounds/brick_x_brick_short");
     }
 
     void Start()
@@ -167,7 +171,13 @@ public class SoundManager : MonoBehaviour
         //        return derevo[rand];
         //    default: return gryaz[0];
         //}
-        return stones_punch;
+        switch(st)
+        {
+            case sound_type.brick:
+                return brick_colliding;
+            default:
+                return stones_punch;
+        }
     }
 
     public AudioClip GetFlyingSound()
