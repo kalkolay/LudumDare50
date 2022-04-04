@@ -1030,7 +1030,7 @@ SpriteShapeRenderer:
   m_SortingOrder: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
-  m_ShapeTexture: {fileID: 2800000, guid: 7d33a258911ab074ea7cc7e6610149f9, type: 3}
+  m_ShapeTexture: {fileID: 2800000, guid: 94e21869f7ec8a841a9123fbe17d5dc9, type: 3}
   m_Sprites: []
   m_LocalAABB:
     m_Center: {x: 2.1000001, y: 13.350002, z: 0}
@@ -1175,7 +1175,7 @@ SpriteShapeRenderer:
   m_SortingOrder: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
-  m_ShapeTexture: {fileID: 2800000, guid: 7d33a258911ab074ea7cc7e6610149f9, type: 3}
+  m_ShapeTexture: {fileID: 2800000, guid: 94e21869f7ec8a841a9123fbe17d5dc9, type: 3}
   m_Sprites: []
   m_LocalAABB:
     m_Center: {x: 2.1000001, y: 1.4499998, z: 0}
@@ -1311,7 +1311,6 @@ MonoBehaviour:
   - {fileID: 8456304839895802044}
   - {fileID: 1297889340995011258}
   - {fileID: 3416400122608315432}
-  MainCamera: {fileID: 0}
 --- !u!1 &6547776050471728664
 GameObject:
   m_ObjectHideFlags: 0
@@ -1386,7 +1385,7 @@ SpriteShapeRenderer:
   m_SortingOrder: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
-  m_ShapeTexture: {fileID: 2800000, guid: 7d33a258911ab074ea7cc7e6610149f9, type: 3}
+  m_ShapeTexture: {fileID: 2800000, guid: 94e21869f7ec8a841a9123fbe17d5dc9, type: 3}
   m_Sprites: []
   m_LocalAABB:
     m_Center: {x: 2.1000001, y: 8.300001, z: 0}

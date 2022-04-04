@@ -118,8 +118,8 @@ public class WallScript : MonoBehaviour
         var position2 = wall.spline.GetPosition(_positionsToUpdate[1]);
         var position1X = PointXToGlobalX(position1.x, wall);
         var position2X = PointXToGlobalX(position2.x, wall);
-        var position1Y = PointXToGlobalX(position1.y, wall);
-        var position2Y = PointXToGlobalX(position2.y, wall);
+        var position1Y = PointYToGlobalY(position1.y, wall);
+        var position2Y = PointYToGlobalY(position2.y, wall);
         var resultX = ((jointPosition.y - position1Y) * (position2X - position1X)) / (position2Y - position1Y) + position1X;
         return new Vector3(resultX, jointPosition.y, jointPosition.z);
     }
