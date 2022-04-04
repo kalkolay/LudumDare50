@@ -17,7 +17,7 @@ public class MusicManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(source.isPlaying && flag_music_loop)
+        if(!source.isPlaying && flag_music_loop)
         {
             PlayGameMusic(track);
         }
@@ -25,6 +25,8 @@ public class MusicManager : MonoBehaviour
 
     public void PlayGameMusic(AudioClip _track)
     {
-        source.PlayOneShot(_track);
+        track = _track;
+        flag_music_loop = true;
+        source.PlayOneShot(_track, music_volume_scale);
     }
 }
