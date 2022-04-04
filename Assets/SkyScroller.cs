@@ -25,8 +25,10 @@ public class SkyScroller : MonoBehaviour
         x2 += 0.08f;
         sky1.transform.localPosition = new Vector3(x1, sky1.transform.localPosition.y, sky1.transform.localPosition.z);
         sky2.transform.localPosition = new Vector3(x2, sky2.transform.localPosition.y, sky2.transform.localPosition.z);
-        if (x1 > 650) x1 -= 712*2;
-        if (x2 > 650) x2 -= 712*2;
+        if (x1 > 650)
+            x1 = x2 - 712;
+        if (x2 > 650)
+            x2 = x1 - 712;
     }
 }
 
