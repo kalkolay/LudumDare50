@@ -34,13 +34,14 @@ public class GameState : MonoBehaviour
     public int Score;
     private float floorPosZ;
     private float skyPosZ;
+    public bool IsWin = false;
 
     void Awake()
     {
         instance = this;
         var spawnerGO = Instantiate(spawner, new Vector3(0, 0, 1), Quaternion.identity, transform);
         _spawner = spawnerGO.GetComponent<ObstacleSpawnerScript>();
-        Sky.GetComponent<DeathPlate>().OnDead += SpawnDed;
+        Sky.GetComponent<DeathPlate>().OnSpawnDed += SpawnDed;
         Sky.SetActive(false);
         floorPosZ = Floor.transform.position.y;
         skyPosZ = Sky.transform.position.y;
