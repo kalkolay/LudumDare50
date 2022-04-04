@@ -24,9 +24,9 @@ public class ObstacleSpawnerScript : MonoBehaviour
     {
         ObstaclesDescription = new ObstacleType[]
         {
-            new ObstacleType(2, 5, 0.225f, 0.225f, 1, 5, smallObstacleSprites),
-            new ObstacleType(5, 5, 0.25f, 0.25f, 1, 2, mediumObstacleSprites),
-            new ObstacleType(10, 10, 0.225f, 0.225f, 1, 1, bigObstacleSprites),
+            new ObstacleType(5, 8, 0.225f, 0.225f, 3, 10, 0.3f, smallObstacleSprites, () => GameState.instance.GetSettings().smallObstacleWeight),
+            new ObstacleType(10, 10, 0.25f, 0.25f, 1, 2, 0.13f, mediumObstacleSprites, () => GameState.instance.GetSettings().mediumObstacleWeight),
+            new ObstacleType(15, 15, 0.225f, 0.225f, 1, 1, 0.4f, bigObstacleSprites, () => GameState.instance.GetSettings().largeObstacleWeight),
         };
         for (int i = 0; i < 10; i++)
             _spawnedObstacles.Add(InstantiateObstacle());
@@ -76,13 +76,14 @@ public class ObstacleSpawnerScript : MonoBehaviour
         }
         freeObstacle.transform.localScale = new Vector3(obstacleType.Width, obstacleType.Height, 1);
         var spriteIndex = Random.Range(0, obstacleType.Sprites.Length - 1);
-        var boxcollider = freeObstacle.GetComponent<BoxCollider2D>();
-        boxcollider.size = obstacleType.Sprites[spriteIndex].bounds.size;
-        var width = boxcollider.size.x * freeObstacle.transform.localScale.x / 2;
-        freeObstacle.transform.position = new Vector3(Random.Range(GameState.instance.GetRightWall().HighestCorner.x - width, GameState.instance.GetLeftWall().HighestCorner.x + width), GameState.instance.GetLeftWall().HighestCorner.y, 0);
+        var polygonCollider2D = freeObstacle.GetComponent<PolygonCollider2D>();
+        freeObstacle.transform.position = new Vector3(Random.Range(GameState.instance.GetRightWall().HighestCorner.x - obstacleType.CalculateWidth, GameState.instance.GetLeftWall().HighestCorner.x + obstacleType.CalculateWidth), GameState.instance.GetLeftWall().HighestCorner.y, 0);
         freeObstacle.GetComponent<SpriteRenderer>().sprite = obstacleType.Sprites[spriteIndex];
+        Destroy(freeObstacle.GetComponent<PolygonCollider2D>());
+        freeObstacle.AddComponent<PolygonCollider2D>();
+        freeObstacle.GetComponent<Rigidbody2D>().mass = obstacleType.WeightGetter();
         freeObstacle.SetActive(true);
-        freeObstacle.AddComponent<PlayFlyingSound>();
+        //freeObstacle.AddComponent<PlayFlyingSound>();
     }
 }
 
@@ -94,9 +95,11 @@ public class ObstacleType
     public float Height { get; set; }
     public int MinCount { get; set; }
     public int MaxCount { get; set; }
+    public float CalculateWidth { get; set; }
+    public System.Func<float> WeightGetter { get; set; }
     public Sprite[] Sprites { get; set; }
 
-    public ObstacleType(float minDelay, float maxDelay, float width, float height, int minCount, int maxCount, Sprite[] sprites)
+    public ObstacleType(float minDelay, float maxDelay, float width, float height, int minCount, int maxCount, float calculateWidth, Sprite[] sprites, System.Func<float> weightGetter)
     {
         MinDelay = minDelay;
         MaxDelay = maxDelay;
@@ -105,5 +108,7 @@ public class ObstacleType
         MinCount = minCount;
         MaxCount = maxCount;
         Sprites = sprites;
+        CalculateWidth = calculateWidth;
+        WeightGetter = weightGetter;
     }
 }

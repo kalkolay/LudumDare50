@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 7854342066409927040}
   - component: {fileID: 7854342066409927041}
   - component: {fileID: 7854342066409927054}
-  - component: {fileID: -2993531234925502995}
+  - component: {fileID: -6876260588941921539}
+  - component: {fileID: 537489850342440542}
   m_Layer: 0
   m_Name: Block
   m_TagString: Stone
@@ -104,8 +105,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &-2993531234925502995
-BoxCollider2D:
+--- !u!60 &-6876260588941921539
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -127,6 +128,23 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.16, y: 0.16}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.08, y: 0.08}
+      - {x: -0.08, y: -0.08}
+      - {x: 0.074999996, y: -0.08}
+      - {x: 0.08, y: -0.06}
+      - {x: 0.08, y: 0.07}
+      - {x: 0.055, y: 0.08}
+--- !u!114 &537489850342440542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7854342066409927050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf9036938b867b4abd55439626e7453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

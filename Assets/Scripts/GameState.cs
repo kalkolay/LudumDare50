@@ -74,19 +74,20 @@ public class GameState : MonoBehaviour
         _spawner.SpeedUp();
     }
 
-    public void OnCameraMove(float distance)
+    public bool OnCameraMove(float distance)
     {
         Background.Move(distance);
         if (_totalMovedDistance >= settingsSo.maxHeight)
         {
             Sky.SetActive(true);
-            return;
+            return false;
         }
         leftWall.MoveWall(distance);
         rightWall.MoveWall(distance);
         Sky.transform.Translate(new Vector3(0, distance, 0));
         Floor.transform.Translate(new Vector3(0, distance, 0));
         _totalMovedDistance+=distance;
+        return true;
     }
 
     public Vector3 GetConnectToWallPosition(Vector3 jointPosition)
@@ -99,7 +100,6 @@ public class GameState : MonoBehaviour
 
     public void AddOnDeadCallback(System.Action callback)
     {
-        Sky.GetComponent<DeathPlate>().OnDead += callback;
         Floor.GetComponent<DeathPlate>().OnDead += callback;
     }
 
@@ -125,5 +125,7 @@ public class GameState : MonoBehaviour
 
     private void SpawnDed()
     {
+        Ded.transform.position = new Vector3(Ded.transform.position.x, Sky.transform.position.y + 1.5f, Ded.transform.position.z);
+        Ded.SetActive(true);
     }
 }

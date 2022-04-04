@@ -48,6 +48,18 @@ public class Setting : MonoBehaviour
             case "triggerWidth":
                 defaultValue = GameState.instance.GetSettings().triggerWidth;
                 break;
+            case "smallObstacleWeight":
+                defaultValue = GameState.instance.GetSettings().smallObstacleWeight;
+                break;
+            case "mediumObstacleWeight":
+                defaultValue = GameState.instance.GetSettings().mediumObstacleWeight;
+                break;
+            case "largeObstacleWeight":
+                defaultValue = GameState.instance.GetSettings().largeObstacleWeight;
+                break;
+            case "obstacleMaxSpeed":
+                defaultValue = GameState.instance.GetSettings().obstacleMaxSpeed;
+                break;
         }
         _slider.value = defaultValue;
         ValueDisplay.text = defaultValue.ToString();
@@ -89,6 +101,18 @@ public class Setting : MonoBehaviour
                 break;
             case "triggerWidth":
                 GameState.instance.GetSettings().triggerWidth = _slider.value;
+                break;
+            case "smallObstacleWeight":
+                GameState.instance.GetSettings().smallObstacleWeight = _slider.value;
+                break;
+            case "mediumObstacleWeight":
+                 GameState.instance.GetSettings().mediumObstacleWeight = _slider.value;
+                break;
+            case "largeObstacleWeight":
+                GameState.instance.GetSettings().largeObstacleWeight = _slider.value;
+                break;
+            case "obstacleMaxSpeed":
+                GameState.instance.GetSettings().obstacleMaxSpeed = _slider.value;
                 break;
         }
         ValueDisplay.text = _slider.value.ToString();

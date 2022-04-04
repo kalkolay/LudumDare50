@@ -59,7 +59,7 @@ public class DragRigidbodyBetter : MonoBehaviour
 
     public int[] aLimbConnected = new int[4];
     public event Action onDedFall;
-    private bool bFalling = false;
+    public bool bFalling = false;
 
     CapsuleCollider2D[] getAllLimbsCapsuleColliders()
     {
@@ -171,7 +171,7 @@ public class DragRigidbodyBetter : MonoBehaviour
         }
     }
 
-    private void DedFall()
+    public void DedFall()
     {
         if (!bFalling)
         {
@@ -387,9 +387,11 @@ public class DragRigidbodyBetter : MonoBehaviour
 
     private bool IsCloseToWall()
     {
+        var isLeftJoint = cureentDragJoint == LeftHand || cureentDragJoint == LeftLeg;
         var mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        var isCorrectJointToWall = isLeftJoint && mousePosition.x <= 0 || !isLeftJoint && mousePosition.x >= 0;
         var closestPosition = GameState.instance.GetConnectToWallPosition(mousePosition);
-        return Mathf.Abs(mousePosition.x - closestPosition.x) < 0.8;
+        return isCorrectJointToWall && Mathf.Abs(mousePosition.x - closestPosition.x) < 0.8;
     }
 
 

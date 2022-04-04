@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DeathPlate : MonoBehaviour
 {
+    public bool isKillZone = true;
     private bool isDead = false;
     public event System.Action OnDead;
     public bool DeactiveteObstaclesOnTouch = false;
@@ -14,7 +15,8 @@ public class DeathPlate : MonoBehaviour
     void Start()
     {
         isDead = false;
-        OnDead += menu.Death;
+        if (isKillZone)
+            OnDead += menu.Death;
     }
 
     void Update()
@@ -46,10 +48,13 @@ public class DeathPlate : MonoBehaviour
         
         if (col.tag == "Player" && !isDead)
         {
-            Debug.Log("You Die");
-            deathRend.SetScore(score);
+            if (isKillZone)
+            {
+                Debug.Log("You Die");
+                deathRend.SetScore(score);
+                isDead = true;
+            }
             OnDead?.Invoke();
-            isDead = true;
         }
     }
 

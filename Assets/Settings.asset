@@ -15,7 +15,7 @@ MonoBehaviour:
   slideDownSpeed: 0
   obstaclesFallSpeed: 0
   testScrollSpeed: 0.01
-  isObstaclesEnabled: 1
+  isObstaclesEnabled: 0
   obstaclesInitSpawnDelay: 1
   obstaclesDelayModifier: 0.9
   obstaclesSpawnAmount: 3
@@ -24,3 +24,6 @@ MonoBehaviour:
   wallsCloseDownAmount: 0.3
   triggerWidth: 0.5
   maxHeight: 40
+  smallObstacleWeight: 10.956593
+  mediumObstacleWeight: 39.57316
+  largeObstacleWeight: 57.358925
