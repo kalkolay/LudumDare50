@@ -16,7 +16,7 @@ public class WallScript : MonoBehaviour
     private Camera MainCamera;
 
     [System.NonSerialized]
-    public float HighestCorner;
+    public Vector2 HighestCorner;
 
     private int[] _positionsToUpdate;
     private int[] _opposePositionsToUpdate;
@@ -25,9 +25,6 @@ public class WallScript : MonoBehaviour
     private float _lastUpdateY;
     private float _segmentHeight;
     private int _nextUpdatedWallIndex;
-
-    // TODO: NO HARDCODE
-    private const float center = 2.38f;
 
     void Start()
     {
@@ -46,7 +43,6 @@ public class WallScript : MonoBehaviour
 
     public void MoveWall(float distance)
     {
-        //transform.Translate(new Vector3(0, -distance, 0));
         if (_lastUpdateY + _segmentHeight + 0.1f * _segmentHeight < MainCamera.transform.position.y)
             MoveWall();
     }
@@ -84,12 +80,17 @@ public class WallScript : MonoBehaviour
 
     private void UpdateCorner(SpriteShapeController wall)
     {
-        HighestCorner = PointXTOGlobalX(wall.spline.GetPosition(_positionsToUpdate[0]).x, wall);
+        HighestCorner = new Vector2(PointXToGlobalX(wall.spline.GetPosition(_positionsToUpdate[0]).x, wall), PointYToGlobalY(wall.spline.GetPosition(_positionsToUpdate[0]).y, wall));
     }
 
-    private float PointXTOGlobalX(float x, SpriteShapeController wall)
+    private float PointXToGlobalX(float x, SpriteShapeController wall)
     {
         return x + wall.transform.localPosition.x + transform.position.x;
+    }
+
+    private float PointYToGlobalY(float y, SpriteShapeController wall)
+    {
+        return y + wall.transform.position.y;
     }
 
     private void UpdateTrigger(int index)
@@ -110,14 +111,18 @@ public class WallScript : MonoBehaviour
             return null;
         var wall = Walls.FirstOrDefault(x =>
         {
-            var firstPosition = x.spline.GetPosition(_positionsToUpdate[0]).y + x.transform.position.y;
-            var secondPosition = x.spline.GetPosition(_positionsToUpdate[1]).y + x.transform.position.y;
+            var firstPosition = PointYToGlobalY(x.spline.GetPosition(_positionsToUpdate[0]).y, x);
+            var secondPosition = PointYToGlobalY(x.spline.GetPosition(_positionsToUpdate[1]).y, x);
             var checkPosition = jointPosition.y;
             return firstPosition - checkPosition > Mathf.Epsilon && secondPosition - checkPosition < - Mathf.Epsilon;
         });
         var position1 = wall.spline.GetPosition(_positionsToUpdate[0]);
         var position2 = wall.spline.GetPosition(_positionsToUpdate[1]);
-        
-        return new Vector3(PointXTOGlobalX(wall.spline.GetPosition(_positionsToUpdate[1]).x + -0.1f * _delta, wall), jointPosition.y, jointPosition.z);
+        var position1X = PointXToGlobalX(position1.x, wall);
+        var position2X = PointXToGlobalX(position2.x, wall);
+        var position1Y = PointXToGlobalX(position1.y, wall);
+        var position2Y = PointXToGlobalX(position2.y, wall);
+        var resultX = ((jointPosition.y - position1Y) * (position2X - position1X)) / (position2Y - position1Y) + position1X;
+        return new Vector3(resultX, jointPosition.y, jointPosition.z);
     }
 }

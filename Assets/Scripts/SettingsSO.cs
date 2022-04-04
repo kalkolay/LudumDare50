@@ -14,4 +14,5 @@ public class SettingsSO : ScriptableObject
     public float obstaclesHeight = 2;
     public float wallsCloseDownAmount = 0.3f;
     public float triggerWidth = 0.1f;
+    public float maxHeight = 50f;
 }

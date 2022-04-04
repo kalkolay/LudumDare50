@@ -23,3 +23,4 @@ MonoBehaviour:
   obstaclesHeight: 2.0060217
   wallsCloseDownAmount: 0.3
   triggerWidth: 0.5
+  maxHeight: 40

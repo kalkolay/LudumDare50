@@ -111,6 +111,7 @@ public class DragRigidbodyBetter : MonoBehaviour
         ccCapsules = getAllLimbsCapsuleColliders();
         onDedFall += () => { Debug.Log("Ded is falling"); };
         bFalling = false;
+        GameState.instance.AddOnDeadCallback(DedFall);
     }
 
     private void Awake()

@@ -13,7 +13,11 @@ public class GameState : MonoBehaviour
     [SerializeField]
     private GameObject DevMenu;
     [SerializeField]
-    private GameObject Background;
+    private BackgroundScript Background;
+    [SerializeField]
+    private GameObject Sky;
+    [SerializeField]
+    private GameObject Floor;
     [SerializeField]
     private UnityEngine.UI.Text CurrentHeightLabel;
 
@@ -23,13 +27,13 @@ public class GameState : MonoBehaviour
     public int currentHeight = 1;
 
     private ObstacleSpawnerScript _spawner;
+    private float _totalMovedDistance = 0;
 
     void Awake()
     {
         instance = this;
         var spawnerGO = Instantiate(spawner, new Vector3(0, 0, 1), Quaternion.identity);
         _spawner = spawnerGO.GetComponent<ObstacleSpawnerScript>();
-        //Time.timeScale = 0f;
     }
 
     void Update()
@@ -64,9 +68,14 @@ public class GameState : MonoBehaviour
 
     public void OnCameraMove(float distance)
     {
+        Background.Move(distance);
+        if (_totalMovedDistance >= settingsSo.maxHeight)
+            return;
         leftWall.MoveWall(distance);
         rightWall.MoveWall(distance);
-        Background.transform.Translate(new Vector3(0, distance, 0));
+        Sky.transform.Translate(new Vector3(0, distance, 0));
+        Floor.transform.Translate(new Vector3(0, distance, 0));
+        _totalMovedDistance+=distance;
     }
 
     public Vector3 GetConnectToWallPosition(Vector3 jointPosition)
@@ -75,5 +84,11 @@ public class GameState : MonoBehaviour
         if (result is null)
             result = rightWall.GetConnectToWallPosition(jointPosition);
         return result.Value;
+    }
+
+    public void AddOnDeadCallback(System.Action callback)
+    {
+        Sky.GetComponent<DeathPlate>().OnDead += callback;
+        Floor.GetComponent<DeathPlate>().OnDead += callback;
     }
 }

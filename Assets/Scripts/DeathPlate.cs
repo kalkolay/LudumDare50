@@ -6,17 +6,17 @@ public class DeathPlate : MonoBehaviour
 {
     private bool isDead = false;
     public event System.Action OnDead;
+    public bool DeactiveteObstaclesOnTouch = false;
     public Menu menu;
     public DeathRend deathRend;
     private int score = 0;
-    // Start is called before the first frame update
+    
     void Start()
     {
         isDead = false;
         OnDead += menu.Death;
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -34,9 +34,14 @@ public class DeathPlate : MonoBehaviour
         if (rb != null)
         {
             score += (int)rb.mass;
-        } else
+        } 
+        else
         {
             score += 1;
+        }
+        if (DeactiveteObstaclesOnTouch && col.tag == "Stone")
+        {
+            col.gameObject.SetActive(false);
         }
         
         if (col.tag == "Player" && !isDead)

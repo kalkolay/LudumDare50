@@ -79,7 +79,7 @@ public class ObstacleSpawnerScript : MonoBehaviour
         var boxcollider = freeObstacle.GetComponent<BoxCollider2D>();
         boxcollider.size = obstacleType.Sprites[spriteIndex].bounds.size;
         var width = boxcollider.size.x * freeObstacle.transform.localScale.x / 2;
-        freeObstacle.transform.position = new Vector3(Random.Range(GameState.instance.GetRightWall().HighestCorner - width, GameState.instance.GetLeftWall().HighestCorner + width), 5.45f, 0);
+        freeObstacle.transform.position = new Vector3(Random.Range(GameState.instance.GetRightWall().HighestCorner.x - width, GameState.instance.GetLeftWall().HighestCorner.x + width), GameState.instance.GetLeftWall().HighestCorner.y, 0);
         freeObstacle.GetComponent<SpriteRenderer>().sprite = obstacleType.Sprites[spriteIndex];
         freeObstacle.SetActive(true);
         freeObstacle.AddComponent<PlayFlyingSound>();
