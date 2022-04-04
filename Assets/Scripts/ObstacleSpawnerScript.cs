@@ -25,7 +25,7 @@ public class ObstacleSpawnerScript : MonoBehaviour
         ObstaclesDescription = new ObstacleType[]
         {
             new ObstacleType(1, 5, 8, 0.225f, 0.225f, 3, 10, 0.3f, smallObstacleSprites, () => GameState.instance.GetSettings().smallObstacleWeight),
-            new ObstacleType(0.5f, 10, 10, 0.25f, 0.25f, 1, 2, 0.13f, mediumObstacleSprites, () => GameState.instance.GetSettings().mediumObstacleWeight),
+            new ObstacleType(0.6f, 10, 10, 0.25f, 0.25f, 1, 2, 0.13f, mediumObstacleSprites, () => GameState.instance.GetSettings().mediumObstacleWeight),
             new ObstacleType(0.3f, 15, 15, 0.225f, 0.225f, 1, 1, 0.4f, bigObstacleSprites, () => GameState.instance.GetSettings().largeObstacleWeight),
         };
         for (int i = 0; i < 10; i++)

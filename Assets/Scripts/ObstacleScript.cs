@@ -13,11 +13,11 @@ public class ObstacleScript : MonoBehaviour
 
     private void Update()
     {
-        if (rigidBody.velocity.magnitude > GameState.instance.GetSettings().obstacleMaxSpeed)
+        var isVelocityUp = rigidBody.velocity.y > 0;
+        var maxSpeed = isVelocityUp && isMultiplayed ? GameState.instance.GetSettings().obstacleMaxSpeed * speedModifier : GameState.instance.GetSettings().obstacleMaxSpeed;
+        if (rigidBody.velocity.magnitude > maxSpeed)
         {
-            rigidBody.velocity = rigidBody.velocity.normalized * GameState.instance.GetSettings().obstacleMaxSpeed;
-            if (isMultiplayed)
-                rigidBody.velocity *= speedModifier;
+            rigidBody.velocity = rigidBody.velocity.normalized * maxSpeed;
         }
     }
 
