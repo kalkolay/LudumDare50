@@ -127,8 +127,8 @@ public class SoundManager : MonoBehaviour
         derevo.Add(derevo_9);
         derevo.Add(derevo_10);
 
-        grab = (AudioClip)Resources.Load("Sounds/lopata_5");
-        release = (AudioClip)Resources.Load("Sounds/lopata_6");
+        grab = (AudioClip)Resources.Load("Sounds/add_to_wall");
+        release = (AudioClip)Resources.Load("Sounds/cut_from_wall");
         stones_big = (AudioClip)Resources.Load("Sounds/kamni_big");
         stones_medium = (AudioClip)Resources.Load("Sounds/kamni_medium");
         stones_small = (AudioClip)Resources.Load("Sounds/kamni_small");
