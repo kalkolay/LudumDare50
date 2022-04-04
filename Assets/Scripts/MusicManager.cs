@@ -25,6 +25,6 @@ public class MusicManager : MonoBehaviour
 
     public void PlayGameMusic(AudioClip _track)
     {
-        source.PlayOneShot(_track);
+        source.PlayOneShot(_track, music_volume_scale);
     }
 }
