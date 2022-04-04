@@ -61,6 +61,8 @@ public class DragRigidbodyBetter : MonoBehaviour
     public event Action onDedFall;
     private bool bFalling = false;
 
+    SoundManager sm;
+
     CapsuleCollider2D[] getAllLimbsCapsuleColliders()
     {
         var result = new CapsuleCollider2D[12];
@@ -112,6 +114,8 @@ public class DragRigidbodyBetter : MonoBehaviour
         onDedFall += () => { Debug.Log("Ded is falling"); };
         bFalling = false;
         GameState.instance.AddOnDeadCallback(DedFall);
+        GameObject[] smanagers = GameObject.FindGameObjectsWithTag("SoundManager");
+        sm = smanagers[0].GetComponent<SoundManager>();
     }
 
     private void Awake()
@@ -315,6 +319,7 @@ public class DragRigidbodyBetter : MonoBehaviour
                 springJoint.transform.position = GameState.instance.GetConnectToWallPosition(springJoint.transform.position);
                 currentGrabber.Grab(springJoint);
                 playerScript.OnGrabTrigger();
+                sm.PlayGrabSound();
             }
             else if (cureentDragJoint != -1)
             {
@@ -364,6 +369,7 @@ public class DragRigidbodyBetter : MonoBehaviour
         {
             GameObject.Destroy(spring.gameObject);
             connectedJoints[hitBodyIndex] = null;
+            sm.PlayReleaseSound();
         }
     }
 
