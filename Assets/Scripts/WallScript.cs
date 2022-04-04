@@ -31,8 +31,8 @@ public class WallScript : MonoBehaviour
         _segmentHeight = Mathf.Abs(Walls[0].spline.GetPosition(_positionsToUpdate[0]).y - Walls[0].spline.GetPosition(_positionsToUpdate[1]).y);
         _deltaModifier = IsLeft ? 1 : -1;
         _delta = _deltaModifier * GameState.instance.GetSettings().wallsCloseDownAmount;
-        UpdatePositions(Walls[0].spline, new int[] { _positionsToUpdate[0] });
-        UpdatePositions(Colliders[0].spline, new int[] { _positionsToUpdate[0] });
+        UpdatePositions(Walls[0].spline, new int[] { _positionsToUpdate[0] }, Walls[0].gameObject);
+        UpdatePositions(Colliders[0].spline, new int[] { _positionsToUpdate[0] }, Colliders[0].gameObject);
         _nextUpdatedWallIndex = -1;
         UpdateCorner(Walls[0]);
         for (int i = 0; i < Walls.Length; i++)
@@ -45,7 +45,7 @@ public class WallScript : MonoBehaviour
             MoveWall();
     }
 
-    private void UpdatePositions(Spline spline, int[] positionsToUpdate)
+    private void UpdatePositions(Spline spline, int[] positionsToUpdate, GameObject gameObject)
     {
         _lastUpdateY = Camera.main.transform.position.y + 0.1f * _segmentHeight;
         foreach (var position in positionsToUpdate)
@@ -53,6 +53,8 @@ public class WallScript : MonoBehaviour
             var pointAtPosition = spline.GetPosition(position);
             spline.SetPosition(position, new Vector3(pointAtPosition.x + _delta, pointAtPosition.y, pointAtPosition.z));
         }
+        Destroy(gameObject.GetComponent<PolygonCollider2D>());
+        gameObject.AddComponent<PolygonCollider2D>();
     }
 
     private void MoveWall()
@@ -67,8 +69,8 @@ public class WallScript : MonoBehaviour
         wallToUpdate.transform.Translate(0, Walls.Length * _segmentHeight, 0);
         colliderToUpdate.transform.Translate(0, Walls.Length * _segmentHeight, 0);
         Triggers[_nextUpdatedWallIndex].transform.Translate(0, Walls.Length * _segmentHeight, 0);
-        UpdatePositions(wallToUpdate.spline, _positionsToUpdate);
-        UpdatePositions(colliderToUpdate.spline, _positionsToUpdate);
+        UpdatePositions(wallToUpdate.spline, _positionsToUpdate, wallToUpdate.gameObject);
+        UpdatePositions(colliderToUpdate.spline, _positionsToUpdate, colliderToUpdate.gameObject);
         UpdateCorner(wallToUpdate);
         UpdateTrigger(_nextUpdatedWallIndex);
         _nextUpdatedWallIndex--;

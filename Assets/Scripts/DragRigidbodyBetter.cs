@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DragRigidbodyBetter : MonoBehaviour
@@ -263,6 +264,7 @@ public class DragRigidbodyBetter : MonoBehaviour
         {
             TryRelease();
         }
+
         // We need to actually hit an object
     }
 
@@ -285,13 +287,21 @@ public class DragRigidbodyBetter : MonoBehaviour
 
             int hitBodyIndex = -1;
             if (rb == initRightHandGrabObject)
-                hitBodyIndex = 0;
+            {
+                hitBodyIndex = RightHand;
+            }
             if (rb == initLeftHandGrabObject)
-                hitBodyIndex = 1;
+            {
+                hitBodyIndex = LeftHand;
+            }
             if (rb == initRightLegGrabObject)
-                hitBodyIndex = 2;
+            {
+                hitBodyIndex = RightLeg;
+            }
             if (rb == initLeftLegGrabObject)
-                hitBodyIndex = 3;
+            {
+                hitBodyIndex = LeftLeg;
+            }
             if (hitBodyIndex == -1)
                 continue;
 
