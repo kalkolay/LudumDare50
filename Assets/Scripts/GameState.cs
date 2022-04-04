@@ -33,11 +33,16 @@ public class GameState : MonoBehaviour
     public GameObject DedPrefab;
     public Menu menu;
 
+    private float floorPosZ;
+    private float skyPosZ;
+
     void Awake()
     {
         instance = this;
         var spawnerGO = Instantiate(spawner, new Vector3(0, 0, 1), Quaternion.identity);
         _spawner = spawnerGO.GetComponent<ObstacleSpawnerScript>();
+        floorPosZ = Floor.transform.position.y;
+        skyPosZ = Sky.transform.position.y;
     }
 
     void Update()
@@ -105,5 +110,7 @@ public class GameState : MonoBehaviour
         newDed.gameObject.tag = "GrandDed";
         GetComponent<DragRigidbodyBetter>().ReInitDeda(newDed);
         menu.RestartReinitScript();
+        Floor.transform.Translate( new Vector3(0, floorPosZ, 0) - Floor.transform.position);
+        Sky.transform.Translate(new Vector3(0, skyPosZ, 0) - Sky.transform.position);
     }
 }
