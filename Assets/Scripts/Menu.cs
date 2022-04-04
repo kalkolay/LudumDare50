@@ -16,6 +16,7 @@ public class Menu : MonoBehaviour
     public DeathPlate deathPlate;
     public PlayerScript player_script;
     public GameState game_state_obj;
+    public SoundManager sound_manager;
 
     Animator _anim;
     enum GameStateEnum {splash, main_menu, credits, game, pause, death};
@@ -53,6 +54,7 @@ public class Menu : MonoBehaviour
         switch (game_state)
         {
             case GameStateEnum.splash:
+                sound_manager.SetVolume(0);
                 if (Input.GetMouseButton(0))
                 {
                     game_state = GameStateEnum.main_menu;
@@ -85,7 +87,7 @@ public class Menu : MonoBehaviour
                 }
                 break;
             case GameStateEnum.main_menu:
-
+                sound_manager.SetVolume(1);
                 break;
             case GameStateEnum.credits:
                 if (Input.GetKeyDown(KeyCode.Escape))
