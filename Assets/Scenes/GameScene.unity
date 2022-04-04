@@ -7441,7 +7441,7 @@ MonoBehaviour:
   deathPlate: {fileID: 594049062}
   player_script: {fileID: 41245423}
   game_state_obj: {fileID: 2110872723}
-  sm: {fileID: 1527159626}
+  sound_manager: {fileID: 1527159626}
 --- !u!114 &1768232881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10728,7 +10728,7 @@ MonoBehaviour:
         m_MethodName: PlayGameMusic
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 4d83dbd4ad6e4c54a8b8ad65081cbb55,
+          m_ObjectArgument: {fileID: 8300000, guid: 804b45870195dba469228838bb864099,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
