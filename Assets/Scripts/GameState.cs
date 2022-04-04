@@ -19,6 +19,8 @@ public class GameState : MonoBehaviour
     [SerializeField]
     private GameObject Floor;
     [SerializeField]
+    private GameObject Ded;
+    [SerializeField]
     private UnityEngine.UI.Text CurrentHeightLabel;
 
     [System.NonSerialized]
@@ -34,6 +36,7 @@ public class GameState : MonoBehaviour
         instance = this;
         var spawnerGO = Instantiate(spawner, new Vector3(0, 0, 1), Quaternion.identity);
         _spawner = spawnerGO.GetComponent<ObstacleSpawnerScript>();
+        Sky.GetComponent<DeathPlate>().OnDead += SpawnDed;
     }
 
     void Update()
@@ -90,5 +93,10 @@ public class GameState : MonoBehaviour
     {
         Sky.GetComponent<DeathPlate>().OnDead += callback;
         Floor.GetComponent<DeathPlate>().OnDead += callback;
+    }
+
+    private void SpawnDed()
+    {
+
     }
 }
