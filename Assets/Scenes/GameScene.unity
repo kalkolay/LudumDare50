@@ -4801,7 +4801,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1069470804}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc95117dfdb74094683b7a8db2c730aa, type: 3}
+  m_Script: {fileID: 11500000, guid: f06e78873ba27a548bb934466d090bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1069470807
@@ -6118,6 +6118,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BodyAndController
       objectReference: {fileID: 0}
+    - target: {fileID: 4023267246248796822, guid: a2b2f5d4ce08d2c4fa275caa84fa182d,
+        type: 3}
+      propertyPath: m_TagString
+      value: GrandDed
+      objectReference: {fileID: 0}
     - target: {fileID: 4023267246248796823, guid: a2b2f5d4ce08d2c4fa275caa84fa182d,
         type: 3}
       propertyPath: m_RootOrder
@@ -7419,6 +7424,8 @@ MonoBehaviour:
   death: {fileID: 1323528343}
   filler: {fileID: 440790705}
   deathPlate: {fileID: 594049062}
+  player_script: {fileID: 41245423}
+  game_state_obj: {fileID: 2110872723}
 --- !u!114 &1768232881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9614,6 +9621,9 @@ MonoBehaviour:
   Floor: {fileID: 594049059}
   Ded: {fileID: 112314722}
   CurrentHeightLabel: {fileID: 1465300612}
+  DedPrefab: {fileID: 4023267246248796822, guid: a2b2f5d4ce08d2c4fa275caa84fa182d,
+    type: 3}
+  menu: {fileID: 1768232880}
 --- !u!4 &2110872724
 Transform:
   m_ObjectHideFlags: 0
@@ -10703,7 +10713,7 @@ MonoBehaviour:
         m_MethodName: PlayGameMusic
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 12433d7ef4bfc8f4b8c169973b362f4b,
+          m_ObjectArgument: {fileID: 8300000, guid: 4d83dbd4ad6e4c54a8b8ad65081cbb55,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0

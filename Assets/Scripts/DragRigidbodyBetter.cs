@@ -413,4 +413,57 @@ public class DragRigidbodyBetter : MonoBehaviour
             }
         }
     }
+
+    public void ReInitDeda(GameObject GrandDed)
+    {
+        playerScript = GrandDed.transform.Find("Controller").GetComponent<PlayerScript>();
+
+        initRightHandGrabObject = GrandDed.transform.Find("char-body-lower/char-body-upper/char-hand-right/char-hand-002/char-hand-003-right").GetComponent<Rigidbody2D>();
+        initLeftHandGrabObject = GrandDed.transform.Find("char-body-lower/char-body-upper/char-hand-left/char-hand-002/char-hand-003-left").GetComponent<Rigidbody2D>();
+        initRightLegGrabObject = GrandDed.transform.Find("char-body-lower/right-leg-001/char-leg-002/char-leg-003-right").GetComponent<Rigidbody2D>();
+        initLeftLegGrabObject = GrandDed.transform.Find("char-body-lower/left-leg-001/char-leg-002/char-leg-003-left").GetComponent<Rigidbody2D>();
+
+        RightHandRootBone = GrandDed.transform.Find("char-body-lower/char-body-upper/char-hand-right").GetComponent<CapsuleCollider2D>();
+        LeftHandRootBone = GrandDed.transform.Find("char-body-lower/char-body-upper/char-hand-left").GetComponent<CapsuleCollider2D>();
+        RightLegRootBone = GrandDed.transform.Find("char-body-lower/right-leg-001").GetComponent<CapsuleCollider2D>();
+        LeftLegRootBone = GrandDed.transform.Find("char-body-lower/left-leg-001").GetComponent<CapsuleCollider2D>();
+
+        RightHandRootBoneJoint = GrandDed.transform.Find("char-body-lower/char-body-upper/char-hand-right").GetComponent<HingeJoint2D>();
+        LeftHandRootBoneJoint = GrandDed.transform.Find("char-body-lower/char-body-upper/char-hand-left").GetComponent<HingeJoint2D>();
+        RightLegRootBoneJoint = GrandDed.transform.Find("char-body-lower/right-leg-001").GetComponent<HingeJoint2D>();
+        LeftLegRootBoneJoint = GrandDed.transform.Find("char-body-lower/left-leg-001").GetComponent<HingeJoint2D>();
+
+        RightHandBoneJoint = GrandDed.transform.Find("char-body-lower/char-body-upper/char-hand-right/char-hand-002/char-hand-003-right").GetComponent<HingeJoint2D>();
+        LeftHandBoneJoint = GrandDed.transform.Find("char-body-lower/char-body-upper/char-hand-left/char-hand-002/char-hand-003-left").GetComponent<HingeJoint2D>();
+        RightLegBoneJoint = GrandDed.transform.Find("char-body-lower/right-leg-001/char-leg-002/char-leg-003-right").GetComponent<HingeJoint2D>();
+        LeftLegBoneJoint = GrandDed.transform.Find("char-body-lower/left-leg-001/char-leg-002/char-leg-003-left").GetComponent<HingeJoint2D>();
+
+        var rhDistVec = RightHandBoneJoint.anchor - RightHandRootBoneJoint.anchor;
+        fDistStd[RightHand] = Mathf.Sqrt(rhDistVec.x * rhDistVec.x + rhDistVec.y * rhDistVec.y);
+
+        var lhDistVec = LeftHandBoneJoint.anchor - LeftHandRootBoneJoint.anchor;
+        fDistStd[LeftHand] = Mathf.Sqrt(lhDistVec.x * lhDistVec.x + lhDistVec.y * lhDistVec.y);
+
+        var rlDistVec = RightLegBoneJoint.anchor - RightLegRootBoneJoint.anchor;
+        fDistStd[RightLeg] = Mathf.Sqrt(rlDistVec.x * rlDistVec.x + rlDistVec.y * rlDistVec.y);
+
+        var llDistVec = LeftLegBoneJoint.anchor - LeftLegRootBoneJoint.anchor;
+        fDistStd[LeftLeg] = Mathf.Sqrt(llDistVec.x * llDistVec.x + llDistVec.y * llDistVec.y);
+
+        rbLimbs[RightHand] = initRightHandGrabObject;
+        rbLimbs[LeftHand] = initLeftHandGrabObject;
+        rbLimbs[RightLeg] = initRightLegGrabObject;
+        rbLimbs[LeftLeg] = initLeftLegGrabObject;
+
+        grLimbs[RightHand] = initRightHandGrabObject.GetComponentInChildren<Grabber>();
+        grLimbs[LeftHand] = initLeftHandGrabObject.GetComponentInChildren<Grabber>();
+        grLimbs[RightLeg] = initRightLegGrabObject.GetComponentInChildren<Grabber>();
+        grLimbs[LeftLeg] = initLeftLegGrabObject.GetComponentInChildren<Grabber>();
+
+        ccCapsules = getAllLimbsCapsuleColliders();
+        onDedFall += () => { Debug.Log("Ded is falling"); };
+        bFalling = false;
+
+        _isInitialized = false;
+    }
 }

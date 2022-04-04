@@ -52,4 +52,9 @@ public class DeathPlate : MonoBehaviour
             isDead = true;
         }
     }
+
+    public void Restart()
+    {
+        isDead = false;
+    }
 }

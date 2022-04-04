@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class GameState : MonoBehaviour
 {
@@ -30,6 +31,9 @@ public class GameState : MonoBehaviour
 
     private ObstacleSpawnerScript _spawner;
     private float _totalMovedDistance = 0;
+
+    public GameObject DedPrefab;
+    public Menu menu;
 
     void Awake()
     {
@@ -95,8 +99,27 @@ public class GameState : MonoBehaviour
         Floor.GetComponent<DeathPlate>().OnDead += callback;
     }
 
+    public void Restart()
+    {
+        StartCoroutine(WaitForCameraShiftToDniwe());
+    }
+
+    private IEnumerator WaitForCameraShiftToDniwe()
+    {
+        while (Camera.main.transform.position.y > 0.001f)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        GameObject[] Fathers = GameObject.FindGameObjectsWithTag("GrandDed");
+        GameObject DedFather = Fathers[0];
+        Object.Destroy(DedFather);
+        GameObject newDed = Instantiate(DedPrefab, new Vector3(2.38f, 0.88f, 0), Quaternion.identity);
+        newDed.gameObject.tag = "GrandDed";
+        GetComponent<DragRigidbodyBetter>().ReInitDeda(newDed);
+        menu.RestartReinitScript();
+    }
+
     private void SpawnDed()
     {
-
     }
 }
