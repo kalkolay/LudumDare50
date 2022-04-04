@@ -90,7 +90,7 @@ public class Menu : MonoBehaviour
                 sound_manager.SetVolume(1);
                 break;
             case GameStateEnum.credits:
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (Input.anyKey)
                 {
                     main_menu.SetActive(true);
                     credits.SetActive(false);
