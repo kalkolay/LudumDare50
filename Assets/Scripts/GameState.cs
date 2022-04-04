@@ -12,8 +12,6 @@ public class GameState : MonoBehaviour
     [SerializeField]
     private WallScript rightWall;
     [SerializeField]
-    private GameObject DevMenu;
-    [SerializeField]
     private BackgroundScript Background;
     [SerializeField]
     private GameObject Sky;
@@ -21,8 +19,6 @@ public class GameState : MonoBehaviour
     private GameObject Floor;
     [SerializeField]
     private GameObject Ded;
-    [SerializeField]
-    private UnityEngine.UI.Text CurrentHeightLabel;
 
     [System.NonSerialized]
     public static GameState instance = null;
@@ -35,6 +31,8 @@ public class GameState : MonoBehaviour
     public GameObject DedPrefab;
     public Menu menu;
 
+    public int Score;
+
     void Awake()
     {
         instance = this;
@@ -42,16 +40,6 @@ public class GameState : MonoBehaviour
         _spawner = spawnerGO.GetComponent<ObstacleSpawnerScript>();
         Sky.GetComponent<DeathPlate>().OnDead += SpawnDed;
         Sky.SetActive(false);
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Delete))
-        {
-            Time.timeScale = DevMenu.activeSelf ? 1 : 0;
-            DevMenu.SetActive(!DevMenu.activeSelf);
-        }
-        CurrentHeightLabel.text = currentHeight.ToString();
     }
 
     public SettingsSO GetSettings()
@@ -127,5 +115,11 @@ public class GameState : MonoBehaviour
     {
         Ded.transform.position = new Vector3(Ded.transform.position.x, Sky.transform.position.y + 1.5f, Ded.transform.position.z);
         Ded.SetActive(true);
+    }
+
+    public void AddMenu(Menu menu)
+    {
+        Sky.GetComponent<DeathPlate>().AddMenu(menu);
+        Floor.GetComponent<DeathPlate>().AddMenu(menu);
     }
 }

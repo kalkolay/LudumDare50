@@ -9,7 +9,6 @@ public class DeathView : MonoBehaviour
     [SerializeField] private GameObject youDied;
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject score;
-    [SerializeField] private Transform mainCamera;
 
     [SerializeField] private float fadeTime = 0.5f;
     [SerializeField] private float youDiedAppear = 0.5f;
@@ -35,7 +34,7 @@ public class DeathView : MonoBehaviour
         backgroundRend = background.GetComponent<SpriteRenderer>();
         scoreText = score.GetComponent<Text>();
 
-        Vector3 cameraPos = mainCamera.transform.position;
+        Vector3 cameraPos = Camera.main.transform.position;
 
         youDied.transform.position = new Vector3(cameraPos.x, cameraPos.y, 1);
         background.transform.position = new Vector3(cameraPos.x, cameraPos.y, 1);

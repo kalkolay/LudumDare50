@@ -12,8 +12,6 @@ public class WallScript : MonoBehaviour
     private SpriteShapeController[] Triggers;
     [SerializeField]
     private SpriteShapeController[] Colliders;
-    [SerializeField]
-    private Camera MainCamera;
 
     [System.NonSerialized]
     public Vector2 HighestCorner;
@@ -43,13 +41,13 @@ public class WallScript : MonoBehaviour
 
     public void MoveWall(float distance)
     {
-        if (_lastUpdateY + _segmentHeight + 0.1f * _segmentHeight < MainCamera.transform.position.y)
+        if (_lastUpdateY + _segmentHeight + 0.1f * _segmentHeight < Camera.main.transform.position.y)
             MoveWall();
     }
 
     private void UpdatePositions(Spline spline, int[] positionsToUpdate)
     {
-        _lastUpdateY = MainCamera.transform.position.y + 0.1f * _segmentHeight;
+        _lastUpdateY = Camera.main.transform.position.y + 0.1f * _segmentHeight;
         foreach (var position in positionsToUpdate)
         {
             var pointAtPosition = spline.GetPosition(position);

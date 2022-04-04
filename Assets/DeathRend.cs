@@ -33,7 +33,7 @@ public class DeathRend : MonoBehaviour
     
     void Update()
     {
-        
+        score_text.text = $"your score: {GameState.instance?.Score ?? 0}";
     }
 
     public void SetAlpha(float a)
@@ -66,15 +66,5 @@ public class DeathRend : MonoBehaviour
         score_text.color = new Color(text_color.r, text_color.g, text_color.b, 0);
         restart_btn.gameObject.SetActive(false);
         exit_btn.gameObject.SetActive(false);
-    }
-
-    public void SetScore(int score)
-    {
-        score_text.text += score.ToString();
-    }
-
-    public void ResetScore()
-    {
-        score_text.text = "your score: ";
     }
 }

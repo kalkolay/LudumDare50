@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class Menu : MonoBehaviour
 {
+    public GameObject FullGamePrefab;
     public GameObject main_menu;
     public GameObject credits;
     public GameObject logo;
@@ -24,6 +25,7 @@ public class Menu : MonoBehaviour
     bool fade_in;
     float dt;
     float prev_time;
+    private GameObject _currentGame;
 
     // Start is called before the first frame update
     void Start()
@@ -47,8 +49,8 @@ public class Menu : MonoBehaviour
     void Update()
     {
         // strange thing - it is deleted after one update after death
-        if (player_script == null || game_state_obj == null)
-            RestartReinitScript();
+        //if (player_script == null || game_state_obj == null)
+        //    RestartReinitScript();
 
         switch (game_state)
         {
@@ -140,7 +142,8 @@ public class Menu : MonoBehaviour
         logo.SetActive(false);
         credits.SetActive(false);
         filler.SetActive(false);
-        deathPlate.onNewGame();
+        //deathPlate.onNewGame();
+        StartGame();
     }
 
     public void CreditsPressed()
@@ -169,12 +172,13 @@ public class Menu : MonoBehaviour
         if (game_state == GameStateEnum.death)
         {
             death.GetComponent<DeathRend>().SetTransparent();
-            death.GetComponent<DeathRend>().ResetScore();
+            //death.GetComponent<DeathRend>().ResetScore();
             death.SetActive(false);
             game_state = GameStateEnum.game;
-            player_script.Restart();
-            game_state_obj.Restart();
-            deathPlate.Restart();
+            //player_script.Restart();
+            //game_state_obj.Restart();
+            //deathPlate.Restart();
+            StartGame();
         }
     }
 
@@ -193,6 +197,15 @@ public class Menu : MonoBehaviour
         player_script = GrandDed.transform.Find("Controller").GetComponent<PlayerScript>();
         GameObject[] GS = GameObject.FindGameObjectsWithTag("GameState");
         game_state_obj = GS[0].GetComponent<GameState>();
+    }
+
+    private void StartGame()
+    {
+        if (_currentGame != null)
+            Destroy(_currentGame);
+        Camera.main.transform.position = new Vector3(0, 0, -10);
+        _currentGame = Instantiate(FullGamePrefab);
+        GameState.instance.AddMenu(this);
     }
 }
 

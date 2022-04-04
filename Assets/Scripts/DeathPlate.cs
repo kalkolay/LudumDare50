@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DeathPlate : MonoBehaviour
 {
@@ -8,15 +6,10 @@ public class DeathPlate : MonoBehaviour
     private bool isDead = false;
     public event System.Action OnDead;
     public bool DeactiveteObstaclesOnTouch = false;
-    public Menu menu;
-    public DeathRend deathRend;
-    private int score = 0;
     
     void Start()
     {
         isDead = false;
-        if (isKillZone)
-            OnDead += menu.Death;
     }
 
     void Update()
@@ -27,7 +20,7 @@ public class DeathPlate : MonoBehaviour
     public void onNewGame()
     {
         isDead = false;
-        score = 0;
+        GameState.instance.Score = 0;
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -35,11 +28,11 @@ public class DeathPlate : MonoBehaviour
         Rigidbody2D rb = col.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            score += (int)rb.mass;
+            GameState.instance.Score += (int)rb.mass;
         } 
         else
         {
-            score += 1;
+            GameState.instance.Score += 1;
         }
         if (DeactiveteObstaclesOnTouch && col.tag == "Stone")
         {
@@ -51,7 +44,6 @@ public class DeathPlate : MonoBehaviour
             if (isKillZone)
             {
                 Debug.Log("You Die");
-                deathRend.SetScore(score);
                 isDead = true;
             }
             OnDead?.Invoke();
@@ -61,5 +53,11 @@ public class DeathPlate : MonoBehaviour
     public void Restart()
     {
         isDead = false;
+    }
+
+    public void AddMenu(Menu menu)
+    {
+        if (isKillZone)
+            OnDead += menu.Death;
     }
 }
