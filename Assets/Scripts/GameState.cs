@@ -41,6 +41,7 @@ public class GameState : MonoBehaviour
         var spawnerGO = Instantiate(spawner, new Vector3(0, 0, 1), Quaternion.identity);
         _spawner = spawnerGO.GetComponent<ObstacleSpawnerScript>();
         Sky.GetComponent<DeathPlate>().OnDead += SpawnDed;
+        Sky.SetActive(false);
     }
 
     void Update()
@@ -77,7 +78,10 @@ public class GameState : MonoBehaviour
     {
         Background.Move(distance);
         if (_totalMovedDistance >= settingsSo.maxHeight)
+        {
+            Sky.SetActive(true);
             return;
+        }
         leftWall.MoveWall(distance);
         rightWall.MoveWall(distance);
         Sky.transform.Translate(new Vector3(0, distance, 0));
