@@ -4205,7 +4205,7 @@ SpriteShapeRenderer:
   m_SortingOrder: -10
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
-  m_ShapeTexture: {fileID: 2800000, guid: a1e48190c95bea64b825090b20d3d1ff, type: 3}
+  m_ShapeTexture: {fileID: 2800000, guid: 96b1c0e6aece7d84399c5071c9a6e4c4, type: 3}
   m_Sprites: []
   m_LocalAABB:
     m_Center: {x: 0.015232563, y: 0.060926437, z: 0}
@@ -11398,7 +11398,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6033353717724978234
 Transform:
   m_ObjectHideFlags: 0
