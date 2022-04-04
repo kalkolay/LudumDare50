@@ -44,7 +44,10 @@ public class SoundManager : MonoBehaviour
     AudioClip stones_medium;
     AudioClip stones_small;
     AudioClip stones_punch;
-    AudioClip brick_colliding;
+    AudioClip brick_colliding_big;
+    AudioClip brick_colliding_medium;
+    AudioClip brick_colliding_small_1;
+    AudioClip brick_colliding_small_2;
     List<AudioClip> gryaz = new List<AudioClip>();
     List<AudioClip> svist = new List<AudioClip>();
     List<AudioClip> zhelezo = new List<AudioClip>();
@@ -134,7 +137,11 @@ public class SoundManager : MonoBehaviour
         stones_small = (AudioClip)Resources.Load("Sounds/kamni_small");
         stones_punch = (AudioClip)Resources.Load("Sounds/lopata_4");
 
-        brick_colliding = (AudioClip)Resources.Load("Sounds/brick_x_brick_short");
+
+        brick_colliding_big = (AudioClip)Resources.Load("Sounds/stone_big");
+        brick_colliding_medium = (AudioClip)Resources.Load("Sounds/stone_medium");
+        brick_colliding_small_1 = (AudioClip)Resources.Load("Sounds/stone_small_1");
+        brick_colliding_small_2 = (AudioClip)Resources.Load("Sounds/stone_small_2");
     }
 
     void Start()
@@ -142,6 +149,8 @@ public class SoundManager : MonoBehaviour
         AudioSource[] sources = GetComponents<AudioSource>();
         _audio = sources[0];
         _audio2 = sources[1];
+        _audio.volume = 0.4f;
+        _audio2.volume = 0.4f;
     }
 
     // Update is called once per frame
@@ -155,26 +164,26 @@ public class SoundManager : MonoBehaviour
         _audio.PlayOneShot(_clip);
     }
 
-    public AudioClip GetContactSound(sound_type st)
+    public AudioClip GetContactSound(int st)
     {
-        //int rand;
-        //switch (st)
-        //{
-        //    case sound_type.dirt:
-        //        rand = Random.Range(0, gryaz.Count);
-        //        return gryaz[rand];
-        //    case sound_type.metal:
-        //        rand = Random.Range(0, zhelezo.Count);
-        //        return zhelezo[rand];
-        //    case sound_type.wood:
-        //        rand = Random.Range(0, derevo.Count);
-        //        return derevo[rand];
-        //    default: return gryaz[0];
-        //}
         switch(st)
         {
-            case sound_type.brick:
-                return brick_colliding;
+            case 5:
+                {
+                    if (Random.Range(0, 1) == 0)
+                    {
+                        return brick_colliding_small_1;
+                    }
+                    else
+                    {
+                        return brick_colliding_small_2;
+                    }
+
+                }
+            case 10:
+                return brick_colliding_medium;
+            case 15:
+                return brick_colliding_big;
             default:
                 return stones_punch;
         }
