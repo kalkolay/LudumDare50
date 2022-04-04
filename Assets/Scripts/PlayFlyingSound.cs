@@ -10,10 +10,19 @@ public class PlayFlyingSound : MonoBehaviour
     SoundManager sound_manager;
     bool collided_once;
     int stone_size;
-    
+
+    GameObject goPlayerHead = null;
+
     void Awake()
     {
         GameObject[] sm = GameObject.FindGameObjectsWithTag("SoundManager");
+        GameObject[] lPlayerHeadGOs = GameObject.FindGameObjectsWithTag("Player");
+
+        if (lPlayerHeadGOs.Length > 0)
+        {
+            goPlayerHead = lPlayerHeadGOs[0];
+        }
+
         sound_manager = sm[0].GetComponent<SoundManager>();
         audio_source = gameObject.AddComponent<AudioSource>() as AudioSource;
         contact_sound = sound_manager.GetContactSound(SoundManager.sound_type.dirt);
@@ -39,7 +48,7 @@ public class PlayFlyingSound : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collided_once)
+        if (!collided_once && !(goPlayerHead is null) && gameObject.transform.position.y < goPlayerHead.transform.position.y + 3.0f)
         {
             PlaySoundContact();
             collided_once = true;
