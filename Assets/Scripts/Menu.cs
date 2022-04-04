@@ -206,13 +206,13 @@ public class Menu : MonoBehaviour
         //player_script.Restart();
         //game_state_obj.Restart();
         //deathPlate.Restart();
+        StartGame();
         if (game_state == GameStateEnum.death)
         {
             //death.GetComponent<DeathRend>().ResetScore();
             //player_script.Restart();
             //game_state_obj.Restart();
             //deathPlate.Restart();
-            StartGame();
             death.SetActive(false);
         }
         if (game_state == GameStateEnum.pause)
