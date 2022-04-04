@@ -418,6 +418,8 @@ public class DragRigidbodyBetter : MonoBehaviour
         {
             var spring = child.GetComponent<SpringJoint2D>();
             var renderer = child.GetComponentInChildren<LineRenderer>();
+            if (spring is null || renderer is null)
+                continue;
 
             if (!spring.connectedBody)
                 continue;

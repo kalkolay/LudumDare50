@@ -38,7 +38,7 @@ public class GameState : MonoBehaviour
     void Awake()
     {
         instance = this;
-        var spawnerGO = Instantiate(spawner, new Vector3(0, 0, 1), Quaternion.identity);
+        var spawnerGO = Instantiate(spawner, new Vector3(0, 0, 1), Quaternion.identity, transform);
         _spawner = spawnerGO.GetComponent<ObstacleSpawnerScript>();
         Sky.GetComponent<DeathPlate>().OnDead += SpawnDed;
         Sky.SetActive(false);
