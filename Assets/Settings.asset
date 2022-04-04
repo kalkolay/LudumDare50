@@ -15,7 +15,7 @@ MonoBehaviour:
   slideDownSpeed: 0
   obstaclesFallSpeed: 0
   testScrollSpeed: 0.01
-  isObstaclesEnabled: 0
+  isObstaclesEnabled: 1
   obstaclesInitSpawnDelay: 1
   obstaclesDelayModifier: 0.9
   obstaclesSpawnAmount: 3
