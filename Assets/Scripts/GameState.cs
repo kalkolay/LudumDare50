@@ -98,15 +98,6 @@ public class GameState : MonoBehaviour
 
     public void Restart()
     {
-        StartCoroutine(WaitForCameraShiftToDniwe());
-    }
-
-    private IEnumerator WaitForCameraShiftToDniwe()
-    {
-        while (Camera.main.transform.position.y > 0.001f)
-        {
-            yield return new WaitForEndOfFrame();
-        }
         GameObject[] Fathers = GameObject.FindGameObjectsWithTag("GrandDed");
         GameObject DedFather = Fathers[0];
         Object.Destroy(DedFather);

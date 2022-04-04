@@ -143,6 +143,9 @@ public class Menu : MonoBehaviour
         credits.SetActive(false);
         filler.SetActive(false);
         deathPlate.onNewGame();
+        player_script.Restart();
+        game_state_obj.Restart();
+        deathPlate.Restart();
     }
 
     public void CreditsPressed()
@@ -156,6 +159,18 @@ public class Menu : MonoBehaviour
     public void ExitPressed()
     {
         Application.Quit();
+    }
+
+    public void ExitToMenu()
+    {
+        if (game_state == GameStateEnum.pause)
+            pause.SetActive(false);
+        if (game_state == GameStateEnum.death)
+            death.SetActive(false);
+        Physics.autoSimulation = false;
+        Time.timeScale = 0;
+        game_state = GameStateEnum.main_menu;
+        main_menu.SetActive(true);
     }
 
     public void ResumePressed()
@@ -177,6 +192,16 @@ public class Menu : MonoBehaviour
             player_script.Restart();
             game_state_obj.Restart();
             deathPlate.Restart();
+        }
+        if (game_state == GameStateEnum.pause)
+        {
+            pause.SetActive(false);
+            game_state = GameStateEnum.game;
+            player_script.Restart();
+            game_state_obj.Restart();
+            deathPlate.Restart();
+            Physics.autoSimulation = true;
+            Time.timeScale = 1;
         }
     }
 

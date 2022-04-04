@@ -5963,7 +5963,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1768232880}
-        m_MethodName: ExitPressed
+        m_MethodName: ExitToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10380,7 +10380,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Quit
+  m_Text: Exit to menu
 --- !u!222 &6033353716094595024
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11256,7 +11256,7 @@ GameObject:
   - component: {fileID: 6033353716840555577}
   - component: {fileID: 6033353716840555582}
   m_Layer: 5
-  m_Name: Quit
+  m_Name: Exit to menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11306,7 +11306,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1768232880}
-        m_MethodName: ExitPressed
+        m_MethodName: ExitToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

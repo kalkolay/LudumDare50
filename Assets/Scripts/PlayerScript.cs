@@ -46,22 +46,6 @@ public class PlayerScript : MonoBehaviour
     public void Restart()
     {
         _amountToMove = -MainCmera.transform.position.y;
-        if (!isMoving)
-            StartCoroutine(RestartWallMove());
-    }
-
-    private IEnumerator RestartWallMove()
-    {
-        while (-_amountToMove > Mathf.Epsilon)
-        {
-            yield return new WaitForEndOfFrame();
-            var travelDistance = Mathf.Max(-0.05f, _amountToMove);
-            GameState.instance.OnCameraMove(travelDistance);
-            MainCmera.transform.Translate(new Vector3(0, travelDistance, 0));
-            _amountToMove -= travelDistance;
-            if (-_amountToMove < Mathf.Epsilon)
-                _amountToMove = 0;
-        }
-        isMoving = false;
+        MainCmera.transform.position = new Vector3(0, 0, -10);
     }
 }
