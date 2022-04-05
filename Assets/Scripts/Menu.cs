@@ -19,6 +19,7 @@ public class Menu : MonoBehaviour
     //public PlayerScript player_script;
     //public GameState game_state_obj;
     public SoundManager sound_manager;
+    public CanvasScaler scaler;
 
     Animator _anim;
     enum GameStateEnum {splash, main_menu, credits, game, pause, death, win};
@@ -28,6 +29,8 @@ public class Menu : MonoBehaviour
     float dt;
     float prev_time;
     private GameObject _currentGame;
+    private int currentHeight = 1080;
+    private int currentWidth = 1920;
 
     public event System.Action OnRestart;
 
@@ -56,6 +59,15 @@ public class Menu : MonoBehaviour
         // strange thing - it is deleted after one update after death
         //if (player_script == null || game_state_obj == null)
         //    RestartReinitScript();
+        
+        if (currentHeight != Display.main.renderingHeight || currentWidth != Display.main.renderingWidth)
+        {
+            var heightRatio = (float)Display.main.renderingHeight / (float)currentHeight;
+            var widthRatio = (float)Display.main.renderingWidth / (float)currentWidth;
+            scaler.scaleFactor = Mathf.Min(heightRatio, widthRatio);
+            currentHeight = Display.main.renderingHeight;
+            currentWidth = Display.main.renderingWidth;
+        }
 
         switch (game_state)
         {
