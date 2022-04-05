@@ -93,7 +93,7 @@ public class Menu : MonoBehaviour
                 }
                 break;
             case GameStateEnum.main_menu:
-                sound_manager.SetVolume(1);
+                sound_manager.SetVolume(0.4f);
                 break;
             case GameStateEnum.credits:
                 if (Input.anyKey)
@@ -127,7 +127,7 @@ public class Menu : MonoBehaviour
             case GameStateEnum.death:
                 if (fade_out)
                 {
-                    dt += 0.016f;
+                    dt += 0.01f;
                     death.GetComponent<DeathRend>().SetAlpha(dt);
                     if (dt > 1)
                     {

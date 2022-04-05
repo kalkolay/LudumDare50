@@ -1880,6 +1880,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1895,6 +1896,21 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df394eec191ffa541838f907c210ca97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  intensity: 0
+  material: {fileID: 2100000, guid: fd8d7b82200f0b74c92eb9f86e95efe8, type: 2}
+  character: {fileID: 0}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -3578,7 +3594,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 256
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -3668,8 +3684,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06e78873ba27a548bb934466d090bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  game_track: {fileID: 8300000, guid: 4d83dbd4ad6e4c54a8b8ad65081cbb55, type: 3}
-  deathmenu_track: {fileID: 8300000, guid: e9684e83d1101c74fbdf4bf769f179ca, type: 3}
+  game_track: {fileID: 8300000, guid: fbf6cc4714aee374d9937d6d9ce7572c, type: 3}
+  deathmenu_track: {fileID: 8300000, guid: a4942216c0c5d244a8b8f2a37f6d42d2, type: 3}
   isFalling: 0
 --- !u!4 &1069470807
 Transform:

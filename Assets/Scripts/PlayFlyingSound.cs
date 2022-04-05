@@ -33,10 +33,8 @@ public class PlayFlyingSound : MonoBehaviour
 
     public void SetStoneSound(int type)
     {
-        svist_sound = sound_manager.GetFlyingSound(type);
-        audio_source.clip = svist_sound;
-        audio_source.volume = 0.4f;
-        audio_source.PlayOneShot(svist_sound);
+        contact_sound = sound_manager.GetContactSound(type);
+        audio_source.clip = contact_sound;
     }
     
     void PlaySoundContact()
@@ -58,7 +56,7 @@ public class PlayFlyingSound : MonoBehaviour
 
         sound_manager = sm[0].GetComponent<SoundManager>();
         audio_source = gameObject.AddComponent<AudioSource>() as AudioSource;
-        contact_sound = sound_manager.GetContactSound(SoundManager.sound_type.dirt);
+        //contact_sound = sound_manager.GetContactSound(SoundManager.sound_type.dirt);
         collided_once = false;
         audio_source.loop = false;
         audio_source.playOnAwake = false;
@@ -72,11 +70,12 @@ public class PlayFlyingSound : MonoBehaviour
             {
                 if (collision.gameObject.tag == "Stone")
                 {
-                    contact_sound = sound_manager.GetContactSound(SoundManager.sound_type.brick);
+                    //contact_sound = sound_manager.GetContactSound(SoundManager.sound_type.brick);
                 }
                 else
                 {
-                    contact_sound = sound_manager.GetContactSound(SoundManager.sound_type.dirt);
+                    if (Random.Range(1, 10) > 6)
+                        sound_manager.DedOret();
                 }
                 PlaySoundContact();
                 collided_once = true;
