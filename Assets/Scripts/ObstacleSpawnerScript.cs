@@ -106,7 +106,12 @@ public class ObstacleSpawnerScript : MonoBehaviour
         {
             sound.MakeDefault();
         }
-        sound.SetStoneSound((int)obstacleType.MinDelay);
+        if(obstacleType.WeightGetter() == 10.0f)
+        {
+            sound.SetStoneSound((int)obstacleType.MinDelay, true);
+        }
+        else
+            sound.SetStoneSound((int)obstacleType.MinDelay);
     }
 
     public void DisableObstcales()
