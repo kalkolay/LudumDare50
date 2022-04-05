@@ -24,9 +24,9 @@ public class ObstacleSpawnerScript : MonoBehaviour
     {
         ObstaclesDescription = new ObstacleType[]
         {
-            new ObstacleType(1, 5, 8, 0.225f, 0.225f, 3, 10, 0.3f, smallObstacleSprites, () => GameState.instance.GetSettings().smallObstacleWeight),
-            new ObstacleType(0.6f, 10, 10, 0.25f, 0.25f, 1, 2, 0.13f, mediumObstacleSprites, () => GameState.instance.GetSettings().mediumObstacleWeight),
-            new ObstacleType(0.3f, 15, 15, 0.225f, 0.225f, 1, 1, 0.4f, bigObstacleSprites, () => GameState.instance.GetSettings().largeObstacleWeight),
+            new ObstacleType(1, 5, 8, 0.225f, 0.225f, 3, 10, 0.3f, smallObstacleSprites, () => GameState.instance.GetSettings().smallObstacleWeight, StoneSize.small),
+            new ObstacleType(0.6f, 10, 10, 0.25f, 0.25f, 1, 2, 0.13f, mediumObstacleSprites, () => GameState.instance.GetSettings().mediumObstacleWeight, StoneSize.medium),
+            new ObstacleType(0.3f, 15, 15, 0.225f, 0.225f, 1, 1, 0.4f, bigObstacleSprites, () => GameState.instance.GetSettings().largeObstacleWeight, StoneSize.large),
         };
         for (int i = 0; i < 10; i++)
             _spawnedObstacles.Add(InstantiateObstacle());
@@ -106,7 +106,7 @@ public class ObstacleSpawnerScript : MonoBehaviour
         {
             sound.MakeDefault();
         }
-        if(obstacleType.WeightGetter() == 10.0f)
+        if(obstacleType.Size == StoneSize.small)
         {
             sound.SetStoneSound((int)obstacleType.MinDelay, true);
         }
@@ -123,6 +123,13 @@ public class ObstacleSpawnerScript : MonoBehaviour
     }
 }
 
+public enum StoneSize
+{
+    small,
+    medium,
+    large
+}
+
 public class ObstacleType
 {
     public float SpeedModifier { get; set; }
@@ -135,8 +142,9 @@ public class ObstacleType
     public float CalculateWidth { get; set; }
     public System.Func<float> WeightGetter { get; set; }
     public Sprite[] Sprites { get; set; }
+    public StoneSize Size { get; set; }
 
-    public ObstacleType(float speedModifier, float minDelay, float maxDelay, float width, float height, int minCount, int maxCount, float calculateWidth, Sprite[] sprites, System.Func<float> weightGetter)
+    public ObstacleType(float speedModifier, float minDelay, float maxDelay, float width, float height, int minCount, int maxCount, float calculateWidth, Sprite[] sprites, System.Func<float> weightGetter, StoneSize size)
     {
         SpeedModifier = speedModifier;
         MinDelay = minDelay;
@@ -148,5 +156,6 @@ public class ObstacleType
         Sprites = sprites;
         CalculateWidth = calculateWidth;
         WeightGetter = weightGetter;
+        Size = size;
     }
 }
