@@ -15,7 +15,6 @@ public class WallScript : MonoBehaviour
     public Vector2 HighestCorner;
 
     private int[] _positionsToUpdate;
-    private int[] _opposePositionsToUpdate;
     private int _deltaModifier;
     private float _delta;
     private float _lastUpdateY;
@@ -25,7 +24,6 @@ public class WallScript : MonoBehaviour
     void Start()
     {
         _positionsToUpdate = IsLeft ? new int[] { 2, 3 } : new int[] { 1, 0 };
-        _opposePositionsToUpdate = IsLeft ? new int[] { 1, 0 } : new int[] { 2, 3 };
         _segmentHeight = Mathf.Abs(Walls[0].spline.GetPosition(_positionsToUpdate[0]).y - Walls[0].spline.GetPosition(_positionsToUpdate[1]).y);
         _deltaModifier = IsLeft ? 1 : -1;
         _delta = _deltaModifier * GameState.instance.GetSettings().wallsCloseDownAmount;

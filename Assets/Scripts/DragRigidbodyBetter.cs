@@ -262,7 +262,7 @@ public class DragRigidbodyBetter : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && !bFalling)
         {
-            TryGrab(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+            TryGrab(mainCamera.ScreenToWorldPoint(Input.mousePosition), true);
         }
         if (Input.GetMouseButtonUp(0))
         {
@@ -272,7 +272,7 @@ public class DragRigidbodyBetter : MonoBehaviour
         // We need to actually hit an object
     }
 
-    private void TryGrab(Vector2 pos)
+    private void TryGrab(Vector2 pos, bool fromHand = false)
     {
         RaycastHit2D[] hits;
         hits = Physics2D.RaycastAll(new Vector2(pos.x, pos.y),
@@ -290,21 +290,26 @@ public class DragRigidbodyBetter : MonoBehaviour
                 continue;
 
             int hitBodyIndex = -1;
+            int toCheckBodyIndex = -1;
             if (rb == initRightHandGrabObject)
             {
                 hitBodyIndex = RightHand;
+                toCheckBodyIndex = RightLeg;
             }
             if (rb == initLeftHandGrabObject)
             {
                 hitBodyIndex = LeftHand;
+                toCheckBodyIndex = LeftLeg;
             }
             if (rb == initRightLegGrabObject)
             {
                 hitBodyIndex = RightLeg;
+                toCheckBodyIndex = RightHand;
             }
             if (rb == initLeftLegGrabObject)
             {
                 hitBodyIndex = LeftLeg;
+                toCheckBodyIndex = LeftHand;
             }
             if (hitBodyIndex == -1)
                 continue;
@@ -312,6 +317,8 @@ public class DragRigidbodyBetter : MonoBehaviour
             currentGrabber = rb.gameObject.GetComponentInChildren<Grabber>();
 
             if (currentGrabber == null) continue;
+            var toCheckGrabber = grLimbs[toCheckBodyIndex];
+            if (fromHand && !toCheckGrabber.isGrabbing) continue;
             ReleaseSpring(currentGrabber, hitBodyIndex);
             CreateSpring(hit, currentGrabber, hitBodyIndex);
             UpdatePinnedSprings();

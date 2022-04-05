@@ -849,6 +849,11 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 4023267246386567636, guid: a2b2f5d4ce08d2c4fa275caa84fa182d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 4023267246480598957, guid: a2b2f5d4ce08d2c4fa275caa84fa182d,
         type: 3}
       propertyPath: m_Mass

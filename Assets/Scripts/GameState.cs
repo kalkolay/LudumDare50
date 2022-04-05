@@ -13,8 +13,7 @@ public class GameState : MonoBehaviour
     private WallScript rightWall;
     [SerializeField]
     private BackgroundScript Background;
-    [SerializeField]
-    private GameObject Sky;
+    public GameObject Sky;
     [SerializeField]
     private GameObject Floor;
     [SerializeField]
