@@ -88,7 +88,7 @@ public class PlayFlyingSound : MonoBehaviour
                 }
                 else
                 {
-                    if (Random.Range(1, 10) > 6)
+                    if (Random.Range(1, 10) > 8)
                         sound_manager.DedOret();
                 }
                 PlaySoundContact();
