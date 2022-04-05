@@ -8,6 +8,7 @@ public class PlayFlyingSound : MonoBehaviour
     AudioClip svist_sound;
     AudioSource audio_source;
     SoundManager sound_manager;
+    Queue<AudioClip> small_rocks;
     bool collided_once;
     int stone_size;
 
@@ -29,12 +30,25 @@ public class PlayFlyingSound : MonoBehaviour
                 goPlayerHead = lPlayerHeadGOs[0];
             }
         }
+
+        if((small_rocks.Count != 0) && (!audio_source.isPlaying))
+        {
+            contact_sound = small_rocks.Dequeue();
+            audio_source.clip = contact_sound;
+        }
     }
 
-    public void SetStoneSound(int type)
+    public void SetStoneSound(int type, bool delay = false)
     {
-        contact_sound = sound_manager.GetContactSound(type);
-        audio_source.clip = contact_sound;
+        if (!delay)
+        {
+            contact_sound = sound_manager.GetContactSound(type);
+            audio_source.clip = contact_sound;
+        }
+        else
+        {
+            small_rocks.Enqueue(sound_manager.GetContactSound(type));
+        }
     }
     
     void PlaySoundContact()
