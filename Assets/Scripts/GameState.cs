@@ -19,6 +19,8 @@ public class GameState : MonoBehaviour
     private GameObject Floor;
     [SerializeField]
     private GameObject Ded;
+    [SerializeField]
+    private GameObject Light;
 
     [System.NonSerialized]
     public static GameState instance = null;
@@ -35,6 +37,8 @@ public class GameState : MonoBehaviour
     private float floorPosZ;
     private float skyPosZ;
     public bool IsWin = false;
+    private float SkyHeight = 8;
+    private bool isSkiesShown = false;
 
     void Awake()
     {
@@ -74,6 +78,11 @@ public class GameState : MonoBehaviour
         {
             Sky.SetActive(true);
             return false;
+        }
+        if (_totalMovedDistance >= settingsSo.maxHeight - SkyHeight - 2 && !isSkiesShown)
+        {
+            Instantiate(Light, new Vector3(0, settingsSo.maxHeight, 0), Quaternion.identity, transform);
+            isSkiesShown = true;
         }
         leftWall.MoveWall(distance);
         rightWall.MoveWall(distance);

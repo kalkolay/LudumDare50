@@ -77,7 +77,9 @@ public class ObstacleSpawnerScript : MonoBehaviour
         freeObstacle.transform.localScale = new Vector3(obstacleType.Width, obstacleType.Height, 1);
         var spriteIndex = Random.Range(0, obstacleType.Sprites.Length - 1);
         var polygonCollider2D = freeObstacle.GetComponent<PolygonCollider2D>();
-        freeObstacle.transform.position = new Vector3(Random.Range(GameState.instance.GetRightWall().HighestCorner.x - obstacleType.CalculateWidth, GameState.instance.GetLeftWall().HighestCorner.x + obstacleType.CalculateWidth), GameState.instance.GetLeftWall().HighestCorner.y, 0);
+        var spawnPositionX = Random.Range(GameState.instance.GetRightWall().HighestCorner.x - obstacleType.CalculateWidth, GameState.instance.GetLeftWall().HighestCorner.x + obstacleType.CalculateWidth);
+        var spawnPositionY = Random.Range(-1, 1);
+        freeObstacle.transform.position = new Vector3(spawnPositionX, GameState.instance.GetLeftWall().HighestCorner.y + spawnPositionY, 0);
         freeObstacle.GetComponent<SpriteRenderer>().sprite = obstacleType.Sprites[spriteIndex];
         Destroy(freeObstacle.GetComponent<PolygonCollider2D>());
         freeObstacle.AddComponent<PolygonCollider2D>();

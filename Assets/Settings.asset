@@ -27,3 +27,4 @@ MonoBehaviour:
   smallObstacleWeight: 10.956593
   mediumObstacleWeight: 39.57316
   largeObstacleWeight: 57.358925
+  obstacleMaxSpeed: 5

@@ -24,6 +24,7 @@ public class ObstacleScript : MonoBehaviour
     private void OnEnable()
     {
         isMultiplayed = false;
+        rigidBody.AddForce(new Vector2(0, 1000));
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

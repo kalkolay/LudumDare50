@@ -9,8 +9,6 @@ public class WallScript : MonoBehaviour
     [SerializeField]
     private SpriteShapeController[] Walls;
     [SerializeField]
-    private SpriteShapeController[] Triggers;
-    [SerializeField]
     private SpriteShapeController[] Colliders;
 
     [System.NonSerialized]
@@ -35,8 +33,6 @@ public class WallScript : MonoBehaviour
         UpdatePositions(Colliders[0].spline, new int[] { _positionsToUpdate[0] }, Colliders[0].gameObject);
         _nextUpdatedWallIndex = -1;
         UpdateCorner(Walls[0]);
-        for (int i = 0; i < Walls.Length; i++)
-            UpdateTrigger(i);
     }
 
     public void MoveWall(float distance)
@@ -68,11 +64,9 @@ public class WallScript : MonoBehaviour
         var colliderToUpdate = Colliders[_nextUpdatedWallIndex];
         wallToUpdate.transform.Translate(0, Walls.Length * _segmentHeight, 0);
         colliderToUpdate.transform.Translate(0, Walls.Length * _segmentHeight, 0);
-        Triggers[_nextUpdatedWallIndex].transform.Translate(0, Walls.Length * _segmentHeight, 0);
         UpdatePositions(wallToUpdate.spline, _positionsToUpdate, wallToUpdate.gameObject);
         UpdatePositions(colliderToUpdate.spline, _positionsToUpdate, colliderToUpdate.gameObject);
         UpdateCorner(wallToUpdate);
-        UpdateTrigger(_nextUpdatedWallIndex);
         _nextUpdatedWallIndex--;
         if (IsLeft)
             GameState.instance.currentHeight++;
@@ -91,18 +85,6 @@ public class WallScript : MonoBehaviour
     private float PointYToGlobalY(float y, SpriteShapeController wall)
     {
         return y + wall.transform.position.y;
-    }
-
-    private void UpdateTrigger(int index)
-    {
-        var wall = Walls[index];
-        var trigger = Triggers[index];
-        for (int positionIndex = 0; positionIndex < _positionsToUpdate.Length; positionIndex++)
-        {
-            var positionToClayTo = wall.spline.GetPosition(_positionsToUpdate[positionIndex]);
-            trigger.spline.SetPosition(_positionsToUpdate[positionIndex], new Vector3(positionToClayTo.x + _deltaModifier * GameState.instance.GetSettings().triggerWidth, positionToClayTo.y, positionToClayTo.z));
-            trigger.spline.SetPosition(_opposePositionsToUpdate[positionIndex], positionToClayTo);
-        }
     }
 
     public Vector3? GetConnectToWallPosition(Vector3 jointPosition)
