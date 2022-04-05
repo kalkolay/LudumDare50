@@ -3570,7 +3570,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 4ea3d45be522d834db3c82eee62706cb, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0
   m_Pitch: 1
@@ -3668,8 +3668,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06e78873ba27a548bb934466d090bde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  game_track: {fileID: 8300000, guid: 7b13ba53a71a7e54bb03d08a98119564, type: 3}
-  deathmenu_track: {fileID: 8300000, guid: c24f04149af5d704e99b3702266f0f7b, type: 3}
+  game_track: {fileID: 8300000, guid: 4ea3d45be522d834db3c82eee62706cb, type: 3}
+  deathmenu_track: {fileID: 8300000, guid: 87c25294d320c9d48be7896f1dbedcbe, type: 3}
   isFalling: 0
 --- !u!4 &1069470807
 Transform:
@@ -8193,7 +8193,7 @@ MonoBehaviour:
         m_MethodName: PlayGameMusic
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 7b13ba53a71a7e54bb03d08a98119564,
+          m_ObjectArgument: {fileID: 8300000, guid: 4ea3d45be522d834db3c82eee62706cb,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
