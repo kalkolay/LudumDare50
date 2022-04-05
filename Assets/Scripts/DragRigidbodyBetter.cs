@@ -155,13 +155,13 @@ public class DragRigidbodyBetter : MonoBehaviour
 
     private void UpdateDedSpringJoint()
     {
-        for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
-        {
-            if (fExtensionCurrentSqr[iLimbIdx] > fLimbExtentionMax && cureentDragJoint != iLimbIdx && connectedJoints[iLimbIdx] != null)
-            {
-                ReleaseSpring(grLimbs[iLimbIdx], iLimbIdx);
-            }
-        }
+        //for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
+        //{
+        //    if (fExtensionCurrentSqr[iLimbIdx] > fLimbExtentionMax && cureentDragJoint != iLimbIdx && connectedJoints[iLimbIdx] != null)
+        //    {
+        //        ReleaseSpring(grLimbs[iLimbIdx], iLimbIdx);
+        //    }
+        //}
     }
 
     private void SlipJoints()
@@ -176,10 +176,11 @@ public class DragRigidbodyBetter : MonoBehaviour
         }
     }
 
-    public void DedFall()
+    public void DedFall(string cause)
     {
         if (!bFalling)
         {
+            Debug.Log(cause);
             bFalling = true;
             for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
             {
@@ -195,47 +196,79 @@ public class DragRigidbodyBetter : MonoBehaviour
 
     private void CheckFalling()
     {
-        int iConnectionCount = 0;
-        for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
+        //int iConnectionCount = 0;
+        //for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
+        //{
+        //    if (iLimbIdx == cureentDragJoint)
+        //    {
+        //        aLimbConnected[iLimbIdx] = 0;
+        //        continue;
+        //    }
+
+        //    aLimbConnected[iLimbIdx] = 0;
+        //    if (connectedJoints[iLimbIdx] != null)
+        //    {
+        //        var spring = connectedJoints[iLimbIdx].GetComponent<SpringJoint2D>();
+
+        //        bool bLimbConnected = (spring != null && spring.connectedBody != null);
+
+        //        if (bLimbConnected)
+        //        {
+        //            aLimbConnected[iLimbIdx] = spring.transform.position.x < 0 ? -1 : 1;
+        //            iConnectionCount++;
+        //        }
+        //    }
+        //}
+
+        //if (iConnectionCount < 2)
+        //{
+        //    UnityEngine.Debug.Log("iConnectionCount < 2");
+        //    DedFall();
+        //}
+
+        //if (iConnectionCount == 2)
+        //{
+        //    int iWallInfo = 0;
+        //    for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
+        //    {
+        //        iWallInfo += aLimbConnected[iLimbIdx];
+        //    }
+        //    if (iWallInfo == 2 || iWallInfo == -2)
+        //    {
+        //        UnityEngine.Debug.Log("iWallInfo == 2 || iWallInfo == -2");
+        //        DedFall();
+        //    }
+        //}
+        var connectedJoints = 0;
+        var isConnectedFromLeft = false;
+        var isConnectedFromRight = false;
+        for (var i = 0; i < 4; i++)
         {
-            if (iLimbIdx == cureentDragJoint)
+            var grabber = grLimbs[i];
+            if (grabber.isGrabbing)
             {
-                aLimbConnected[iLimbIdx] = 0;
-                continue;
-            }
-
-            aLimbConnected[iLimbIdx] = 0;
-            if (connectedJoints[iLimbIdx] != null)
-            {
-                var spring = connectedJoints[iLimbIdx].GetComponent<SpringJoint2D>();
-
-                bool bLimbConnected = (spring != null && spring.connectedBody != null);
-
-                if (bLimbConnected)
+                connectedJoints++;
+                if (i == LeftHand)
                 {
-                    aLimbConnected[iLimbIdx] = spring.transform.position.x < 0 ? -1 : 1;
-                    iConnectionCount++;
+                    isConnectedFromLeft = true;
+                }
+                else if (i == RightHand)
+                {
+                    isConnectedFromRight = true;
+                }
+                else if (i == LeftLeg)
+                {
+                    isConnectedFromLeft = true;
+                }
+                else if (i == RightLeg)
+                {
+                    isConnectedFromRight = true;
                 }
             }
         }
-
-        if (iConnectionCount < 2)
-        {
-            DedFall();
-        }
-
-        if (iConnectionCount == 2)
-        {
-            int iWallInfo = 0;
-            for (int iLimbIdx = RightHand; iLimbIdx <= LeftLeg; iLimbIdx++)
-            {
-                iWallInfo += aLimbConnected[iLimbIdx];
-            }
-            if (iWallInfo == 2 || iWallInfo == -2)
-            {
-                DedFall();
-            }
-        }
+        var isHolding = connectedJoints > 1 && isConnectedFromLeft && isConnectedFromRight;
+        if (!isHolding)
+            DedFall("not holding");
     }
 
     private void Update()

@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public Transform BodyTransform;
-    public Camera MainCmera;
+    private Camera MainCmera;
 
     private float _prevBodyPosition;
     private float _amountToMove = 0;

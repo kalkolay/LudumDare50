@@ -30,7 +30,6 @@ public class GameState : MonoBehaviour
     private float _totalMovedDistance = 0;
 
     public GameObject DedPrefab;
-    public Menu menu;
 
     public int Score;
     private float floorPosZ;
@@ -80,7 +79,7 @@ public class GameState : MonoBehaviour
         }
         if (_totalMovedDistance >= settingsSo.maxHeight - SkyHeight - 2 && !isSkiesShown)
         {
-            Instantiate(Light, new Vector3(0, settingsSo.maxHeight, 0), Quaternion.identity, transform);
+            Instantiate(Light, new Vector3(0, settingsSo.maxHeight + 1, 0), Quaternion.identity, transform);
             isSkiesShown = true;
         }
         leftWall.MoveWall(distance);
@@ -99,7 +98,7 @@ public class GameState : MonoBehaviour
         return result.Value;
     }
 
-    public void AddOnDeadCallback(System.Action callback)
+    public void AddOnDeadCallback(System.Action<string> callback)
     {
         Floor.GetComponent<DeathPlate>().OnDead += callback;
     }
@@ -113,14 +112,14 @@ public class GameState : MonoBehaviour
         GameObject newDed = Instantiate(DedPrefab, new Vector3(2.38f, 0.88f, 0), Quaternion.identity);
         newDed.gameObject.tag = "GrandDed";
         GetComponent<DragRigidbodyBetter>().ReInitDeda(newDed);
-        menu.RestartReinitScript();
+        //menu.RestartReinitScript();
         Floor.transform.Translate( new Vector3(0, floorPosZ, 0) - Floor.transform.position);
         Sky.transform.Translate(new Vector3(0, skyPosZ, 0) - Sky.transform.position);
     }
 
     private void SpawnDed()
     {
-        Ded.transform.position = new Vector3(Ded.transform.position.x, Sky.transform.position.y + 1.5f, Ded.transform.position.z);
+        Ded.transform.position = new Vector3(-2.25f, Sky.transform.position.y + 1.5f, Ded.transform.position.z);
         Ded.SetActive(true);
     }
 

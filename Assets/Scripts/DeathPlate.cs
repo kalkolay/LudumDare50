@@ -4,7 +4,7 @@ public class DeathPlate : MonoBehaviour
 {
     public bool isKillZone = true;
     private bool isDead = false;
-    public event System.Action OnDead;
+    public event System.Action<string> OnDead;
     public event System.Action OnWin;
     public event System.Action OnSpawnDed;
     public bool DeactiveteObstaclesOnTouch = false;
@@ -50,7 +50,9 @@ public class DeathPlate : MonoBehaviour
                 if (GameState.instance.IsWin)
                     OnWin?.Invoke();
                 else
-                    OnDead?.Invoke();
+                {
+                    OnDead?.Invoke("isKillZone");
+                }
             }
             else
             {

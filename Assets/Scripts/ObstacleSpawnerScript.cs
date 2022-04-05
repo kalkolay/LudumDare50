@@ -35,11 +35,11 @@ public class ObstacleSpawnerScript : MonoBehaviour
 
     void Update()
     {
-//#if UNITY_EDITOR
+#if UNITY_EDITOR
         var isObstaclesEnabled = GameState.instance.GetSettings().isObstaclesEnabled;
-//#else
-//        var isObstaclesEnabled = true;
-//#endif
+#else
+        var isObstaclesEnabled = true;
+#endif
         if (Time.timeScale != 0 && isObstaclesEnabled && _spawnerCoroutines.Any( x => x is null))
             for (var i = 0; i < ObstaclesDescription.Length; i++)
                 _spawnerCoroutines[i] = StartCoroutine(SpawnObstaclesCoroutine(i));
@@ -62,25 +62,23 @@ public class ObstacleSpawnerScript : MonoBehaviour
         var obstacleType = ObstaclesDescription[index];
         var timeToWait = Random.Range(obstacleType.MinDelay, obstacleType.MaxDelay);
         var numberToSpawn = Random.Range(obstacleType.MinCount, obstacleType.MaxCount);
-        var timesToWait = new float[numberToSpawn];
-        for (var i = 0; i < numberToSpawn; i++)
-
         yield return new WaitForSeconds(timeToWait * _delayModifier);
-//#if UNITY_EDITOR
+#if UNITY_EDITOR
         var isObstaclesEnabled = GameState.instance.GetSettings().isObstaclesEnabled;
-//#else
-//        var isObstaclesEnabled = true;
-//#endif
+#else
+        var isObstaclesEnabled = true;
+#endif
         for (int i = 0; i < numberToSpawn; i++)
-            SpawnObstacle(obstacleType);
+            StartCoroutine(SpawnObstacle(obstacleType));
         if (isObstaclesEnabled)
             _spawnerCoroutines[index] = StartCoroutine(SpawnObstaclesCoroutine(index));
         else
             _spawnerCoroutines[index] = null;
     }
 
-    private void SpawnObstacle(ObstacleType obstacleType)
+    private IEnumerator SpawnObstacle(ObstacleType obstacleType)
     {
+        yield return new WaitForSeconds(Random.Range(0, 3));
         var freeObstacle = _spawnedObstacles.FirstOrDefault(x => x.activeSelf == false);
         if (freeObstacle is null)
         {

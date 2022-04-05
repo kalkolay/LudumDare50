@@ -540,7 +540,6 @@ MonoBehaviour:
   Light: {fileID: 5170141637009190452, guid: aef1d4b9d9d1b3e4286cd4c34e58a1f3, type: 3}
   DedPrefab: {fileID: 4023267246248796822, guid: a2b2f5d4ce08d2c4fa275caa84fa182d,
     type: 3}
-  menu: {fileID: 0}
   Score: 0
   IsWin: 0
 --- !u!114 &5079963770716798605
@@ -797,7 +796,7 @@ PrefabInstance:
     - target: {fileID: 4023267246248796823, guid: a2b2f5d4ce08d2c4fa275caa84fa182d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.334028
+      value: 4.29
       objectReference: {fileID: 0}
     - target: {fileID: 4023267246248796823, guid: a2b2f5d4ce08d2c4fa275caa84fa182d,
         type: 3}

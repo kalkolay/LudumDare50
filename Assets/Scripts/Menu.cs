@@ -234,7 +234,7 @@ public class Menu : MonoBehaviour
         OnRestart?.Invoke();
     }
 
-    public void Death()
+    public void Death(string owo)
     {
         Physics.autoSimulation = false;
         Time.timeScale = 0;

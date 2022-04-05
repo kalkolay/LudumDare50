@@ -7,6 +7,8 @@ public class DummyScript : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if ((collision.gameObject.tag == "Player" || collision.gameObject.tag == "PlayerPart") && !controller.bFalling)
-            controller.DedFall();
+        {
+            controller.DedFall("another ded");
+        }
     }
 }
