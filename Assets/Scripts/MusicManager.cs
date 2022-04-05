@@ -11,7 +11,8 @@ public class MusicManager : MonoBehaviour
     public AudioClip game_track;
     public AudioClip deathmenu_track;
 
-    const float max_volume = 1.0f;
+    const float max_volume_death = 0.6f;
+    const float max_volume_music = 0.1f;
     const float min_volume = 0.0f;
     const float dv = 0.01f;
 
@@ -88,7 +89,7 @@ public class MusicManager : MonoBehaviour
         if (source.volume > min_volume)
             source.volume -= dv;
     }
-    void FadeIn()
+    void FadeIn(float max_volume)
     {
         if (source.volume < max_volume)
             source.volume += dv;
@@ -108,9 +109,9 @@ public class MusicManager : MonoBehaviour
                 deathmenu_track_enabled = true;
             }
 
-            FadeIn();
+            FadeIn(max_volume_death);
 
-            if (source.volume >= max_volume)
+            if (source.volume >= max_volume_death)
             {
                 isFalling = false;
                 isFadeIn = false;
@@ -142,9 +143,9 @@ public class MusicManager : MonoBehaviour
                 game_track_enabled = true;
             }
 
-            FadeIn();
+            FadeIn(max_volume_music);
 
-            if (source.volume >= max_volume)
+            if (source.volume >= max_volume_music)
             {
                 _isStarting = false;
                 isFadeIn = false;
