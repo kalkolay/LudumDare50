@@ -56,7 +56,9 @@ public class MusicManager : MonoBehaviour
 
     void StartMusic()
     {
-        source.PlayOneShot(deathmenu_track, 0.0f);
+        source.loop = true;
+        source.clip = deathmenu_track;
+        source.Play();
 
         isFalling = true;
         isFadeIn = true;
@@ -101,7 +103,8 @@ public class MusicManager : MonoBehaviour
                 source.Stop();
                 game_track_enabled = false;
 
-                source.PlayOneShot(deathmenu_track);
+                source.clip = deathmenu_track;
+                source.Play();
                 deathmenu_track_enabled = true;
             }
 
@@ -134,7 +137,8 @@ public class MusicManager : MonoBehaviour
                 source.Stop();
                 deathmenu_track_enabled = false;
 
-                source.PlayOneShot(game_track);
+                source.clip = game_track;
+                source.Play();
                 game_track_enabled = true;
             }
 
@@ -163,7 +167,6 @@ public class MusicManager : MonoBehaviour
     {
         game_track = _track;
         flag_music_loop = true;
-        //source.PlayOneShot(_track);
 
         _isStarting = true;
     }
@@ -171,6 +174,5 @@ public class MusicManager : MonoBehaviour
     public void PlayMenuMusic(AudioClip _track)
     {
         deathmenu_track = _track;
-        //source.PlayOneShot(_track, current_volume);
     }
 }
