@@ -8,7 +8,7 @@ public class PlayFlyingSound : MonoBehaviour
     AudioClip svist_sound;
     AudioSource audio_source;
     SoundManager sound_manager;
-    Queue<AudioClip> small_rocks;
+    Queue<AudioClip> small_rocks = new Queue<AudioClip>();
     bool collided_once;
     int stone_size;
 

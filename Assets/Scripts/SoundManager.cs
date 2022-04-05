@@ -50,6 +50,7 @@ public class SoundManager : MonoBehaviour
     AudioClip brick_colliding_small_2;
     AudioClip ded_oret;
     AudioClip ded_padaet;
+    AudioClip new_small_rock;
     List<AudioClip> gryaz = new List<AudioClip>();
     List<AudioClip> svist = new List<AudioClip>();
     List<AudioClip> zhelezo = new List<AudioClip>();
@@ -144,6 +145,7 @@ public class SoundManager : MonoBehaviour
         brick_colliding_medium = (AudioClip)Resources.Load("Sounds/stone_medium");
         brick_colliding_small_1 = (AudioClip)Resources.Load("Sounds/stone_small_1");
         brick_colliding_small_2 = (AudioClip)Resources.Load("Sounds/stone_small_2");
+        new_small_rock = (AudioClip)Resources.Load("Sounds/brick-on-soi2l");
 
         ded_oret = (AudioClip)Resources.Load("Sounds/dim_damaged1");
         ded_padaet = (AudioClip)Resources.Load("Sounds/dim_faling");
@@ -175,14 +177,15 @@ public class SoundManager : MonoBehaviour
         {
             case 5:
                 {
-                    if (Random.Range(0, 1) == 0)
-                    {
-                        return brick_colliding_small_1;
-                    }
-                    else
-                    {
-                        return brick_colliding_small_2;
-                    }
+                    //if (Random.Range(0, 1) == 0)
+                    //{
+                    //    return brick_colliding_small_1;
+                    //}
+                    //else
+                    //{
+                    //    return brick_colliding_small_2;
+                    //}
+                    return new_small_rock;
 
                 }
             case 10:
