@@ -189,6 +189,7 @@ public class DragRigidbodyBetter : MonoBehaviour
             GameObject goMusic = GameObject.FindGameObjectWithTag("MusicManager");
             MusicManager mm = goMusic.GetComponent<MusicManager>();
             mm.setFallingStart();
+            sm.DedPadaet();
         }
     }
 

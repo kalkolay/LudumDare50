@@ -48,6 +48,8 @@ public class SoundManager : MonoBehaviour
     AudioClip brick_colliding_medium;
     AudioClip brick_colliding_small_1;
     AudioClip brick_colliding_small_2;
+    AudioClip ded_oret;
+    AudioClip ded_padaet;
     List<AudioClip> gryaz = new List<AudioClip>();
     List<AudioClip> svist = new List<AudioClip>();
     List<AudioClip> zhelezo = new List<AudioClip>();
@@ -142,6 +144,9 @@ public class SoundManager : MonoBehaviour
         brick_colliding_medium = (AudioClip)Resources.Load("Sounds/stone_medium");
         brick_colliding_small_1 = (AudioClip)Resources.Load("Sounds/stone_small_1");
         brick_colliding_small_2 = (AudioClip)Resources.Load("Sounds/stone_small_2");
+
+        ded_oret = (AudioClip)Resources.Load("Sounds/dim_damaged1");
+        ded_padaet = (AudioClip)Resources.Load("Sounds/dim_faling");
     }
 
     void Start()
@@ -219,8 +224,8 @@ public class SoundManager : MonoBehaviour
         }
         else
         {
-            _audio.clip = release;
-            _audio.PlayOneShot(release);
+            _audio2.clip = release;
+            _audio2.PlayOneShot(release);
         }
     }
 
@@ -245,6 +250,34 @@ public class SoundManager : MonoBehaviour
             default:
                 return stones_big;
 
+        }
+    }
+
+    public void DedOret()
+    {
+        if (!_audio.isPlaying)
+        {
+            _audio.clip = ded_oret;
+            _audio.PlayOneShot(ded_oret);
+        }
+        else
+        {
+            _audio2.clip = ded_oret;
+            _audio2.PlayOneShot(ded_oret);
+        }
+    }
+
+    public void DedPadaet()
+    {
+        if (!_audio.isPlaying)
+        {
+            _audio.clip = ded_padaet;
+            _audio.PlayOneShot(ded_padaet);
+        }
+        else
+        {
+            _audio2.clip = ded_padaet;
+            _audio2.PlayOneShot(ded_padaet);
         }
     }
 }

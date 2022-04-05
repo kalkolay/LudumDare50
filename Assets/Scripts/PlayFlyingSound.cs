@@ -74,7 +74,8 @@ public class PlayFlyingSound : MonoBehaviour
                 }
                 else
                 {
-                    //contact_sound = sound_manager.GetContactSound(SoundManager.sound_type.dirt);
+                    if (Random.Range(1, 10) > 6)
+                        sound_manager.DedOret();
                 }
                 PlaySoundContact();
                 collided_once = true;

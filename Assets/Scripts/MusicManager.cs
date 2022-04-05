@@ -77,8 +77,6 @@ public class MusicManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log($"{source.volume}");
-
         UpdateDeathMenuTrack();
         UpdateGameTrack();
     }
